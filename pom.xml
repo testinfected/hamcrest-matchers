@@ -91,7 +91,7 @@
     </distributionManagement>
     <scm>
         <connection>scm:git:git://github.com/testinfected/hamcrest-matchers.git</connection>
-        <url>scm:git:git://github.com/vtence/testinfected-matchers.git</url>
+        <url>scm:git:git://github.com/testinfected/hamcrest-matchers.git</url>
     </scm>
 
 </project>
