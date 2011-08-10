@@ -12,7 +12,7 @@ public class FakeNode implements Path.Node {
     }
 
     public FakeNode withName(String nodeName) {
-        name = nodeName;
+        name = "".equals(nodeName) ? null : nodeName;
         return this;
     }
 
