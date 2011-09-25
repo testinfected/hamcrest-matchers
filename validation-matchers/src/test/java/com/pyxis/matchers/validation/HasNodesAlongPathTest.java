@@ -10,6 +10,8 @@ public class HasNodesAlongPathTest extends AbstractMatcherTest {
     HasNodesAlongPath composedPath = HasNodesAlongPath.path("path.to.property");
     FakePath shouldMatchComposedPath = FakePath.pathAlong("path", "to", "property");
     FakePath shouldNotMatch = FakePath.pathAlong("notMatched");
+    FakePath shouldMatchClassPath= FakePath.pathAlong("");
+    HasNodesAlongPath classPath = HasNodesAlongPath.path("");
 
     @Override protected Matcher<?> createMatcher() {
         return composedPath;
@@ -24,7 +26,11 @@ public class HasNodesAlongPathTest extends AbstractMatcherTest {
         assertDoesNotMatch("simple path", simplePath, shouldNotMatch);
     }
 
-    public void testHasHumanReadableDescription() {
+    public void testBlankPathMatchesPathOfClass() {
+    	 assertMatches("class path", classPath, shouldMatchClassPath);
+    }
+    
+     public void testHasHumanReadableDescription() {
         assertDescription(" \"property\"", simplePath);        
         assertDescription(" \"path\"-> \"to\"-> \"property\"", composedPath);        
     }

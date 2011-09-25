@@ -41,7 +41,7 @@ public class HasNodesAlongPath extends TypeSafeMatcher<Path> {
     }
 
     public static Matcher<? super Path.Node> nodeWithName(String name) {
-        return nodeWithName(equalTo(name));
+        return nodeWithName(equalTo("".equals(name) ? null : name));
     }
 
     public static Matcher<? super Path.Node> nodeWithName(Matcher<? super String> nameMatcher) {
