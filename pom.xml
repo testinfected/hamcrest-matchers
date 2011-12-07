@@ -99,8 +99,7 @@
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
-                            <!--<goal>aggregate</goal>-->
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -111,10 +110,9 @@
                 <version>2.8</version>
                 <executions>
                     <execution>
-                        <id>attach-javadoc</id>
+                        <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
-                            <!--<goal>aggregate-jar</goal>-->
                         </goals>
                     </execution>
                 </executions>
@@ -152,7 +150,7 @@
                         <!--<version>2.8</version>-->
                         <!--<executions>-->
                             <!--<execution>-->
-                                <!--<id>attach-javadoc</id>-->
+                                <!--<id>attach-javadocs</id>-->
                                 <!--<goals>-->
                                     <!--<goal>jar</goal>-->
                                 <!--</goals>-->

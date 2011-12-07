@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>hamcrest-matchers</artifactId>
@@ -10,7 +11,7 @@
     <artifactId>all-matchers</artifactId>
     <packaging>pom</packaging>
     <name>All Matchers</name>
-    <description>A set of additional matchers for Hamcrest</description>
+    <description>The complete set of additional matchers for Hamcrest</description>
 
     <dependencies>
         <dependency>
@@ -20,8 +21,20 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>core-matchers</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>dom-matchers</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>dom-matchers</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -30,13 +43,31 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>validation-matchers</artifactId>
+            <artifactId>jpa-matchers</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>spring-matchers</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>spring-matchers</artifactId>
             <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>validation-matchers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>validation-matchers</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
         </dependency>
     </dependencies>
 
@@ -45,18 +76,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.2</version>
+                <version>2.2-beta-5</version>
                 <configuration>
                     <descriptors>
                         <descriptor>
-                            src/main/assembly/packaging.xml
+                            src/main/assembly/all-jar.xml
+                        </descriptor>
+                        <descriptor>
+                            src/main/assembly/all-sources.xml
                         </descriptor>
                     </descriptors>
-                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>assembly</id>
+                        <id>sources</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -64,21 +97,86 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<version>2.1.2</version>-->
-                <!--<artifactId>maven-source-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>jar</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<attach>true</attach>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>unpack-dependencies</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>com.pyxis.matchers</includeGroupIds>
+                            <includeClassifiers>sources</includeClassifiers>
+                            <excludeTransitive>true</excludeTransitive>
+                            <outputDirectory>${project.build.directory}/javadoc-src</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <!-- generate the javadoc -->
+                    <execution>
+                        <id>all-javadoc</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target>
+                                <javadoc packagenames="com.pyxis.matchers.*"
+                                         maxmemory="256m"
+                                         sourcepath="${project.build.directory}/javadoc-src"
+                                         defaultexcludes="yes"
+                                         destdir="${project.build.directory}/apidocs/"
+                                         version="true"
+                                         use="true"
+                                         windowtitle="${project.name} API">
+                                    <doctitle>
+                                        <![CDATA[<h1>${project.name} API v${project.version}</h1>]]></doctitle>
+                                    <bottom>
+
+                                    </bottom>
+                                    <classpath refid="maven.dependency.classpath"/>
+                                </javadoc>
+                                <jar destfile="${project.build.directory}/${project.build.finalName}-javadoc.jar"
+                                     basedir="${project.build.directory}/apidocs/"
+                                     includes="**/**"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}-javadoc.jar</file>
+                                    <type>jar</type>
+                                    <classifier>javadoc</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
