@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>hamcrest-matchers</artifactId>
-        <groupId>com.pyxis.matchers</groupId>
+        <groupId>org.testinfected</groupId>
         <version>1.4-SNAPSHOT</version>
     </parent>
 
@@ -71,6 +71,12 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <javadoc.src>${project.build.directory}/javadoc-src</javadoc.src>
+        <javadoc.dir>${project.build.directory}/apidocs/</javadoc.dir>
+        <javadoc.jar>${project.build.directory}/${project.build.finalName}-javadoc.jar</javadoc.jar>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -89,7 +95,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>sources</id>
+                        <id>assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -109,7 +115,7 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeGroupIds>com.pyxis.matchers</includeGroupIds>
+                            <includeGroupIds>org.testinfected</includeGroupIds>
                             <includeClassifiers>sources</includeClassifiers>
                             <excludeTransitive>true</excludeTransitive>
                             <outputDirectory>${project.build.directory}/javadoc-src</outputDirectory>
@@ -122,30 +128,17 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
                 <executions>
-                    <!-- generate the javadoc -->
                     <execution>
                         <id>all-javadoc</id>
                         <phase>compile</phase>
                         <configuration>
                             <target>
-                                <javadoc packagenames="com.pyxis.matchers.*"
-                                         maxmemory="256m"
-                                         sourcepath="${project.build.directory}/javadoc-src"
-                                         defaultexcludes="yes"
-                                         destdir="${project.build.directory}/apidocs/"
-                                         version="true"
-                                         use="true"
-                                         windowtitle="${project.name} API">
-                                    <doctitle>
-                                        <![CDATA[<h1>${project.name} API v${project.version}</h1>]]></doctitle>
-                                    <bottom>
-
-                                    </bottom>
+                                <javadoc sourcepath="${javadoc.src}" destdir="${javadoc.dir}">
                                     <classpath refid="maven.dependency.classpath"/>
                                 </javadoc>
-                                <jar destfile="${project.build.directory}/${project.build.finalName}-javadoc.jar"
-                                     basedir="${project.build.directory}/apidocs/"
-                                     includes="**/**"/>
+                                <jar jarfile="${javadoc.jar}">
+                                    <fileset dir="${javadoc.dir}"/>
+                                </jar>
                             </target>
                         </configuration>
                         <goals>
@@ -168,7 +161,7 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>${project.build.directory}/${project.build.finalName}-javadoc.jar</file>
+                                    <file>${javadoc.jar}</file>
                                     <type>jar</type>
                                     <classifier>javadoc</classifier>
                                 </artifact>

@@ -2,7 +2,7 @@
 <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-    <id></id>
+    <id>all-jar</id>
     <formats>
         <format>jar</format>
     </formats>
@@ -10,7 +10,7 @@
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>com.pyxis.matchers:*</include>
+                <include>org.testinfected:*-matchers</include>
             </includes>
             <excludes>
                 <exclude>*:sources</exclude>

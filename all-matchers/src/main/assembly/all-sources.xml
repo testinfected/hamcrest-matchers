@@ -10,7 +10,7 @@
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>com.pyxis.matchers:*:jar:sources</include>
+                <include>org.testinfected:*-matchers:jar:sources</include>
             </includes>
             <unpack>true</unpack>
         </dependencySet>
