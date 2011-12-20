@@ -3,8 +3,8 @@ package org.testinfected.hamcrest.dom;
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 
-import static com.threelevers.css.DocumentBuilder.doc;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.testinfected.hamcrest.dom.Documents.document;
 import static org.testinfected.hamcrest.dom.WithRootElement.withRootElement;
 import static org.testinfected.hamcrest.dom.WithTag.withTag;
 
@@ -16,8 +16,8 @@ public class WithRootElementTest extends AbstractMatcherTest {
     }
 
     public void testMatchesRootDocumentElement() {
-        assertMatches("correct element", withRootElement(withTag("html")), doc("<html></html>"));
-        assertDoesNotMatch("incorrect element", withRootElement(withTag("xml")), doc("<html></html>"));
+        assertMatches("correct element", withRootElement(withTag("html")), document("<html></html>"));
+        assertDoesNotMatch("incorrect element", withRootElement(withTag("xml")), document("<html></html>"));
     }
 
     public void testHasAReadableDescription() {
@@ -25,7 +25,7 @@ public class WithRootElementTest extends AbstractMatcherTest {
     }
 
     public void testHasAReadableMismatchDescription() {
-        assertMismatchDescription("document element tag was \"HTML\"", withRootElement(withTag(equalTo("xml"))), doc("<html></html>"));
+        assertMismatchDescription("document element tag was \"html\"", withRootElement(withTag(equalTo("xml"))), document("<html></html>"));
     }
 
 }

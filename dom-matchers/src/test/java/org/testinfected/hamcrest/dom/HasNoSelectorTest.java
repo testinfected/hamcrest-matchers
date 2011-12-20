@@ -3,8 +3,8 @@ package org.testinfected.hamcrest.dom;
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 
+import static org.testinfected.hamcrest.dom.Documents.toElement;
 import static org.testinfected.hamcrest.dom.HasNoSelector.hasNoSelector;
-import static com.threelevers.css.DocumentBuilder.dom;
 
 public class HasNoSelectorTest extends AbstractMatcherTest {
 
@@ -12,10 +12,10 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
     protected Matcher<?> createMatcher() {
         return hasNoSelector("#unknown");
     }
-    
+
     public void testMatchesWhenElementHasNoChildMatchingSelector() {
-        assertMatches("not found", hasNoSelector("#unknown"), dom("<div id='content'>content</div>"));
-        assertDoesNotMatch("found", hasNoSelector("#content"), dom("<div id='content'>content</div>"));
+        assertMatches("not found", hasNoSelector("#unknown"), toElement("<div id='content'>content</div>"));
+        assertDoesNotMatch("found", hasNoSelector("#content"), toElement("<div id='content'>content</div>"));
     }
 
     public void testHasAReadableDescription() {
@@ -23,6 +23,6 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
     }
 
     public void testHasAReadableMismatchDescription() {
-        assertMismatchDescription("matched element \"DIV\"", hasNoSelector("#content"), dom("<div id='content'></div>"));
+        assertMismatchDescription("matched element \"div\"", hasNoSelector("#content"), toElement("<div id='content'></div>"));
     }
 }

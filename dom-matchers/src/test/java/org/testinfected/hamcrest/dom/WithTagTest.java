@@ -1,13 +1,12 @@
 package org.testinfected.hamcrest.dom;
 
-import com.threelevers.css.Selector;
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-import static com.threelevers.css.DocumentBuilder.dom;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.testinfected.hamcrest.dom.Documents.toElement;
 import static org.testinfected.hamcrest.dom.WithTag.withTag;
 
 public class WithTagTest extends AbstractMatcherTest {
@@ -34,15 +33,10 @@ public class WithTagTest extends AbstractMatcherTest {
     }
 
     public void testHasAReadableMismatchDescription() {
-        assertMismatchDescription("element tag was \"SPAN\"", withTag(equalTo("div")), a("span"));
+        assertMismatchDescription("element tag was \"span\"", withTag(equalTo("div")), a("span"));
     }
 
     private Element a(String tag) {
-        return element(String.format("<%s></%s>", tag, tag));
+        return toElement(String.format("<%s></%s>", tag, tag));
     }
-
-    private Element element(String html) {
-        return Selector.from(dom(html)).selectUnique("html > body > *");
-    }
-
 }

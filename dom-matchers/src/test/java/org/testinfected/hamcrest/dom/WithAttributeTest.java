@@ -1,13 +1,15 @@
 package org.testinfected.hamcrest.dom;
 
-import com.threelevers.css.Selector;
 import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-import static org.testinfected.hamcrest.dom.WithAttribute.*;
-import static com.threelevers.css.DocumentBuilder.dom;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.testinfected.hamcrest.dom.Documents.toElement;
+import static org.testinfected.hamcrest.dom.WithAttribute.withAttribute;
+import static org.testinfected.hamcrest.dom.WithAttribute.withClassName;
+import static org.testinfected.hamcrest.dom.WithAttribute.withId;
+import static org.testinfected.hamcrest.dom.WithAttribute.withName;
 
 public class WithAttributeTest extends AbstractMatcherTest {
 
@@ -18,7 +20,6 @@ public class WithAttributeTest extends AbstractMatcherTest {
 
     public void testMatchesWhenElementHasAttributeMatchingValue() {
         assertMatches("correct attribute", withAttribute("name", equalTo("submit")), anElementWithAttribute("name", "submit"));
-        assertMatches("correct attribute with different case", withAttribute("NAME", equalTo("submit")), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("incorrect attribute", withAttribute("name", equalTo("commit")), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("missing attribute", withAttribute("value", equalTo("submit")), anElementWithAttribute("name", "submit"));
     }
@@ -59,11 +60,6 @@ public class WithAttributeTest extends AbstractMatcherTest {
     }
 
     private Element anElementWithAttribute(String attributeName, String attributeValue) {
-        return element(String.format("<div %s=\"%s\"></div>", attributeName, attributeValue));
+        return toElement(String.format("<div %s=\"%s\"></div>", attributeName, attributeValue));
     }
-
-    private Element element(String html) {
-        return Selector.from(dom(html)).selectUnique("html > body > *");
-    }
-
 }
