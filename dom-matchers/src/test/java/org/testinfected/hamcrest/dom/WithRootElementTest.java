@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.dom;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.document;
@@ -15,16 +16,19 @@ public class WithRootElementTest extends AbstractMatcherTest {
         return withRootElement(withTag("html"));
     }
 
-    public void testMatchesRootDocumentElement() {
+    @Test public void
+    matchesRootDocumentElement() {
         assertMatches("correct element", withRootElement(withTag("html")), document("<html></html>"));
         assertDoesNotMatch("incorrect element", withRootElement(withTag("xml")), document("<html></html>"));
     }
 
-    public void testHasAReadableDescription() {
+    @Test public void
+    hasAReadableDescription() {
         assertDescription("a document element with tag \"html\"", withRootElement(withTag(equalTo("html"))));
     }
 
-    public void testHasAReadableMismatchDescription() {
+    @Test public void
+    hasAReadableMismatchDescription() {
         assertMismatchDescription("document element tag was \"html\"", withRootElement(withTag(equalTo("xml"))), document("<html></html>"));
     }
 

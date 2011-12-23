@@ -11,9 +11,11 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.testinfected.hamcrest.dom.DomMatchers.inOrder;
+
 public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
-    public HasChildren(Matcher<? super Iterable<Element>> childrenMatcher) {
+    public HasChildren(Matcher<Iterable<Element>> childrenMatcher) {
         super(childrenMatcher, "an element with children", "element children");
     }
 
@@ -27,8 +29,8 @@ public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
     }
 
     @Factory
-    public static Matcher<Element> hasChildren(Matcher<Element>... childrenMatchers) {
-        return hasChildren(Matchers.<Element>contains(childrenMatchers));
+    public static Matcher<Element> hasChildren(Matcher<? super Element>... childrenMatchers) {
+        return hasChildren(inOrder(childrenMatchers));
     }
 
     @SuppressWarnings("unchecked")

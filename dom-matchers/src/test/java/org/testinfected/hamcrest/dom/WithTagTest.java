@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.dom;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 import org.w3c.dom.Element;
 
 import static org.hamcrest.Matchers.equalToIgnoringCase;
@@ -16,23 +17,27 @@ public class WithTagTest extends AbstractMatcherTest {
         return withTag("div");
     }
 
-    public void testMatchesWhenElementHasMatchingTagName() {
+    @Test public void
+    matchesWhenElementHasMatchingTagName() {
         assertMatches("correct tag", withTag(equalToIgnoringCase("div")), a("div"));
         assertDoesNotMatch("incorrect tag", withTag(equalTo("div")), a("span"));
     }
 
-    public void testProvidesConvenientShortcutForMatchingTagNameIgnoringCase() {
+    @Test public void
+    providesConvenientShortcutForMatchingTagNameIgnoringCase() {
         assertMatches("same lowercase tag", withTag("div"), a("div"));
         assertMatches("same uppercase tag", withTag("DIV"), a("DIV"));
         assertMatches("upper case tag", withTag("DIV"), a("div"));
         assertMatches("lowercase correct tag", withTag("div"), a("DIV"));
     }
 
-    public void testHasAReadableDescription() {
+    @Test public void
+    hasAReadableDescription() {
         assertDescription("element with tag \"div\"", withTag(equalTo("div")));
     }
 
-    public void testHasAReadableMismatchDescription() {
+    @Test public void
+    hasAReadableMismatchDescription() {
         assertMismatchDescription("element tag was \"span\"", withTag(equalTo("div")), a("span"));
     }
 

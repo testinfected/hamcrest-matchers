@@ -4,7 +4,10 @@ import static org.hamcrest.Matchers.allOf;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.w3c.dom.Element;
+
+import java.util.Arrays;
 
 /**
  * A collection of hamcrest matchers to validate DOM elements
@@ -93,8 +96,14 @@ public class DomMatchers {
      * so on.
      * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
      */
-    public static Matcher<Iterable<Element>> inOrder(Matcher<Element>... elementMatchers) {
-        return Matchers.contains(elementMatchers);
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> inOrder(Matcher<? super Element>... elementMatchers) {
+        // As of hacmrest 1.3.RC2 hasItems family of hamcrest matchers return Matcher<Iterable<? extends T>>
+        // whereas the contains ones return Iterable<Matcher<T>>. Unfortunately, this makes them impossible
+        // to combine without using unchecked assignements.
+        // Let's force Matcher<Iterable<Element>>, since Element is an interface
+        // (generics can be so confusing at times)
+        return new IsIterableContainingInOrder(Arrays.asList(elementMatchers));
     }
 
     /**

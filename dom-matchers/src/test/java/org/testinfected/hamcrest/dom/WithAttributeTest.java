@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.dom;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 import org.w3c.dom.Element;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -18,30 +19,35 @@ public class WithAttributeTest extends AbstractMatcherTest {
         return withAttribute("name", equalTo("Submit"));
     }
 
-    public void testMatchesWhenElementHasAttributeMatchingValue() {
+    @Test public void
+    matchesWhenElementHasAttributeMatchingValue() {
         assertMatches("correct attribute", withAttribute("name", equalTo("submit")), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("incorrect attribute", withAttribute("name", equalTo("commit")), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("missing attribute", withAttribute("value", equalTo("submit")), anElementWithAttribute("name", "submit"));
     }
 
-    public void testProvidesConvenientShortcutForMatchingIdenticalValues() {
+    @Test public void
+    providesConvenientShortcutForMatchingAttributeValueUsingEqual() {
         assertMatches("correct attribute", withAttribute("name", "submit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("correct attribute with incorrect case", withAttribute("name", "Submit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("incorrect attribute", withAttribute("name", "commit"), anElementWithAttribute("name", "submit"));
         assertDoesNotMatch("missing attribute", withAttribute("value", "submit"), anElementWithAttribute("name", "submit"));
     }
 
-    public void testProvidesConvenientShortcutForMatchingId() {
+    @Test public void
+    providesConvenientShortcutForMatchingId() {
         assertMatches("correct id", withId("content"), anElementWithAttribute("id", "content"));
         assertDoesNotMatch("incorrect id", withId("content"), anElementWithAttribute("id", "header"));
     }
 
-    public void testProvidesConvenientShortcutForMatchingName() {
+    @Test public void
+    providesConvenientShortcutForMatchingName() {
         assertMatches("correct name", withName("fieldName"), anElementWithAttribute("name", "fieldName"));
         assertDoesNotMatch("incorrect name", withName("fieldName"), anElementWithAttribute("name", "incorrectName"));
     }
 
-    public void testProvidesConvenientShortcutForMatchingAClassName() {
+    @Test public void
+    providesConvenientShortcutForMatchingAClassName() {
         assertMatches("correct class", withClassName("text"), anElementWithAttribute("class", "text"));
         assertDoesNotMatch("incorrect class", withClassName("text"), anElementWithAttribute("class", "number"));
         assertMatches("starting class", withClassName("text"), anElementWithAttribute("class", "text strong"));
@@ -50,11 +56,13 @@ public class WithAttributeTest extends AbstractMatcherTest {
         assertDoesNotMatch("look-alike class", withClassName("text"), anElementWithAttribute("class", "textlongtext"));
     }
 
-    public void testHasAReadableDescription() {
+    @Test public void
+    hasAReadableDescription() {
         assertDescription("element with attribute \"name\" \"submit\"", withAttribute("name", "submit"));
     }
 
-    public void testHasAReadableMismatchDescription() {
+    @Test public void
+    hasAReadableMismatchDescription() {
         assertMismatchDescription("element attribute \"name\" was \"Commit\"", withAttribute("name", "submit"), anElementWithAttribute("name", "Commit"));
         assertMismatchDescription("element attribute \"name\" was \"\"", withAttribute("name", "submit"), anElementWithAttribute("value", "submit"));
     }
