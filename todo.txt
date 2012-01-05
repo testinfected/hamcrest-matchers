@@ -3,3 +3,4 @@
   I think I'd rather have the same semantics and introduce a new matcher.
 - See if something like http://code.google.com/p/hamcrest/issues/detail?id=62&q=contains can improve
 readability
+- Review assertion error messages in tests

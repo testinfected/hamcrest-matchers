@@ -13,7 +13,7 @@ public class PersistenceMatchers {
     private PersistenceMatchers() {}
 
     /**
-     * Checks that an entity has a field with a value that is matched by the given matcher.
+     * Checks that an entity has a field with a value that is matched by the provided matcher.
      *
      * The field does not have to be public or to have a visible accessor. Field is accessed directly.
      *

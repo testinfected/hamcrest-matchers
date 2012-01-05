@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.jpa;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToMany;
@@ -16,18 +17,18 @@ import static org.testinfected.hamcrest.jpa.SamePersistentFieldsAs.samePersisten
 
 public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
 
-    private static final Dependent aComponent = new Dependent("expected");
-    private static final Dependent aMatchingComponent = new Dependent("expected");
-    private static final Value aValue = new Value("expected");
-    private static final Value aMatchingValue = new Value("expected");
-    private static final ExampleEntity expectedEntity = new ExampleEntity("same", 1, aValue, aComponent);
-    private static final ExampleEntity shouldMatch = new ExampleEntity("same", 1, aMatchingValue, aMatchingComponent);
+    Dependent aComponent = new Dependent("expected");
+    Dependent aMatchingComponent = new Dependent("expected");
+    Value aValue = new Value("expected");
+    Value aMatchingValue = new Value("expected");
+    ExampleEntity expectedEntity = new ExampleEntity("same", 1, aValue, aComponent);
+    ExampleEntity shouldMatch = new ExampleEntity("same", 1, aMatchingValue, aMatchingComponent);
 
-    private static final ExampleEntity differentTransientFields = new ExampleEntity("same", 1, aValue, aComponent) {{
+    ExampleEntity differentTransientFields = new ExampleEntity("same", 1, aValue, aComponent) {{
         isStatic = new Object();
         isTransient = new Object();
     }};
-    private static final ExampleEntity differentAssociationFields = new ExampleEntity("same", 1, aValue, aComponent) {{
+    ExampleEntity differentAssociationFields = new ExampleEntity("same", 1, aValue, aComponent) {{
         parent = new ParentEntity();
         children = Arrays.asList(new ChildEntity(), new ChildEntity());
         sibling = new ExampleEntity("sibling", 2, new Value("value"), new Dependent("component"));
@@ -37,16 +38,19 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
         return samePersistentFieldsAs(expectedEntity);
     }
 
-    public void testMatchesWhenAllPersistentFieldsMatch() {
+    @Test public void
+    matchesWhenAllPersistentFieldsMatch() {
       assertMatches("matching fields", samePersistentFieldsAs(expectedEntity), shouldMatch);
     }
 
-    public void testReportsMismatchWhenActualTypeIsNotAssignableToExpectedType() {
+    @Test public void
+    reportsMismatchWhenTypesAreNotCompatible() {
       assertMismatchDescription("is incompatible type: ExampleEntity",
                                 samePersistentFieldsAs((Object)aValue), expectedEntity);
     }
 
-    public void testReportsMismatchOnFirstFieldDifference() {
+    @Test public void
+    reportsMismatchOnFirstNonMatchingField() {
       assertMismatchDescription("string was \"different\"",
           samePersistentFieldsAs(expectedEntity), new ExampleEntity("different", 1, aValue, aComponent));
       assertMismatchDescription("integer was <2>",
@@ -57,25 +61,30 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
             samePersistentFieldsAs(expectedEntity), new ExampleEntity("same", 1, aValue, new Dependent("other")));
     }
 
-    public void testIgnoresTransientFields() {
-      assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
+    @Test public void
+    ignoresTransientFields() {
+      assertMatches("matching persistent fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
     }
 
-    public void testIgnoredAssociations() {
-      assertMatches("correct fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
+    @Test public void
+    IgnoresAssociations() {
+      assertMatches("matching non-association fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
     }
 
-    public void testMatchesDescendantSameFields() {
+    @Test public void
+    matchesDescendantSameFields() {
       assertMatches("sub type with same properties",
           samePersistentFieldsAs(expectedEntity), new DescendantEntity("same", 1, aValue, aComponent));
     }
 
-    public void testMatchesIfSubTypeHasExtraProperties() {
+    @Test public void
+    matchesIfSubTypeHasExtraProperties() {
       assertMatches("sub type with extra properties",
           samePersistentFieldsAs(expectedEntity), new DescendantEntityWithExtraProperty("same", 1, aValue, aComponent));
     }
 
-    public void testHasHumanReadableDescription() {
+    @Test public void
+    hasHumanReadableDescription() {
       assertDescription("with fields [string: \"same\", integer: <1>, value: <expected>, component: with fields [value: \"expected\"], parent: an association, children: an association, sibling: an association]", samePersistentFieldsAs(expectedEntity));
     }
 

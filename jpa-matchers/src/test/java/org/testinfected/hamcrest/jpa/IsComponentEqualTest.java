@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.jpa;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import javax.persistence.Embeddable;
 
@@ -10,44 +11,51 @@ import static org.testinfected.hamcrest.jpa.SamePersistentFieldsAs.samePersisten
 
 public class IsComponentEqualTest extends AbstractMatcherTest {
 
-    private static final Value aValue = new Value("expected");
-    private static final Value aMatchingValue = new Value("expected");
-    private static final ExampleComponent expectedComponent = new ExampleComponent("same", 1, aValue);
-    private static final ExampleComponent shouldMatch = new ExampleComponent("same", 1, aMatchingValue);
+    Value aValue = new Value("expected");
+    Value aMatchingValue = new Value("expected");
+    ExampleComponent expectedComponent = new ExampleComponent("same", 1, aValue);
+    ExampleComponent shouldMatch = new ExampleComponent("same", 1, aMatchingValue);
 
     @Override protected Matcher<?> createMatcher() {
         return componentEqualTo(expectedComponent);
     }
 
-    public void testMatchesWhenAllPersistentFieldsMatch() {
+    @Test public void
+    matchesWhenAllPersistentFieldsMatch() {
       assertMatches("matching fields", componentEqualTo(expectedComponent), shouldMatch);
     }
 
-    public void testMatchesTwoNullComponents() {
+    @Test public void
+    matchesTwoNullComponents() {
       assertMatches("null match", componentEqualTo(null), null);
     }
 
-    public void testMatchesAnExpectedNullToAComponentWithNullProperties() {
+    @Test public void
+    matchesNullToAComponentWithNullProperties() {
       assertMatches("null expected",
           componentEqualTo(null), new ExampleComponent(null, null, null));
     }
 
-    public void testMatchesAComponentWithNullPropertiesToAnActualNull() {
+    @Test public void
+    matchesAComponentWithNullPropertiesToNull() {
       assertMatches("all null expected",
-          componentEqualTo(new ExampleComponent(null, null, null)), null);
+              componentEqualTo(new ExampleComponent(null, null, null)), null);
     }
 
-    public void testReportsMismatchWhenActualComponentIsNull() {
+    @Test public void
+    hasHumanReadableDescription() {
+        assertDescription("with fields [string: \"same\", integer: <1>, value: <expected>]", samePersistentFieldsAs(expectedComponent));
+    }
+
+    @Test public void
+    reportsMismatchWhenComponentIsNull() {
       assertMismatchDescription("is null",
-          componentEqualTo(expectedComponent), null);
+              componentEqualTo(expectedComponent), null);
     }
 
-    public void testDescribesNullExpectationClearly() {
+    @Test public void
+    describesNullExpectationClearly() {
       assertDescription("null", componentEqualTo(null));
-    }
-
-    public void testHasHumanReadableDescription() {
-      assertDescription("with fields [string: \"same\", integer: <1>, value: <expected>]", samePersistentFieldsAs(expectedComponent));
     }
 
     public static class Value {

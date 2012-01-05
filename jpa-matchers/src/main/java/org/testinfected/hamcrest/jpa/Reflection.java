@@ -14,7 +14,7 @@ public class Reflection {
 
     public static Object readField(Object argument, Field field) {
         try {
-            boolean accessible = byPassSecurity(field);
+            boolean accessible = bypassSecurity(field);
             Object value = field.get(argument);
             restoreSecurity(field, accessible);
             return value;
@@ -48,7 +48,7 @@ public class Reflection {
         field.setAccessible(accessible);
     }
 
-    private static boolean byPassSecurity(Field field) {
+    private static boolean bypassSecurity(Field field) {
         boolean accessible = field.isAccessible();
         field.setAccessible(true);
         return accessible;
