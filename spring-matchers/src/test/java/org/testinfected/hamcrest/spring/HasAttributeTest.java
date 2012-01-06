@@ -1,9 +1,10 @@
 package org.testinfected.hamcrest.spring;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.testinfected.hamcrest.spring.HasAttribute.containsAttribute;
@@ -28,26 +29,31 @@ public class HasAttributeTest extends AbstractMatcherTest {
         return hasAttributeValue("key", equalTo("matches"));
     }
     
-    public void testMatchesValueUnderGivenKey() {
+    @Test public void
+    matchesAttributeValueUsingProvidedMatcher() {
         assertMatches("correct value", createMatcher(), shouldMatch);
         assertDoesNotMatch("incorrect value", createMatcher(), shouldNotMatch);
         assertDoesNotMatch("missing key", createMatcher(), missingKey);
     }
     
-    public void testProvidesConvenientShortcutForMatchingEqualValue() {
+    @Test public void
+    providesConvenientShortcutForMatchingValueUsingEquals() {
         assertMatches("equal value", hasAttribute("key", "matches"), shouldMatch);
     }
     
-    public void testProvidesConvenientShortcutForCheckingKey() {
+    @Test public void
+    providesConvenientShortcutForCheckingIfAttributeExists() {
         assertMatches("key match", containsAttribute("key"), shouldMatch);
         assertDoesNotMatch("no key match", containsAttribute("key"), missingKey);
     }
 
-    public void testHasHumanReadableDescription() {
+    @Test public void
+    hasHumanReadableDescription() {
         assertDescription("with \"key\" \"matches\"", createMatcher());
     }
 
-    public void testHasHumanReadableMismatchDescription() {
+    @Test public void
+    hasHumanReadableMismatchDescription() {
         assertMismatchDescription("\"key\" was \"does not match\"", createMatcher(), shouldNotMatch);
     }
 }
