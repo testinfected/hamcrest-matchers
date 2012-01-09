@@ -1,8 +1,8 @@
 package org.testinfected.hamcrest.dom;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.toElement;
