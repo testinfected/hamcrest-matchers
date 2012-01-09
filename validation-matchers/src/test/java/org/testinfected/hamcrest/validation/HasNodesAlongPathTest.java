@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.validation;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 public class HasNodesAlongPathTest extends AbstractMatcherTest {
 
@@ -10,27 +11,31 @@ public class HasNodesAlongPathTest extends AbstractMatcherTest {
     HasNodesAlongPath composedPath = HasNodesAlongPath.path("path.to.property");
     FakePath shouldMatchComposedPath = FakePath.pathAlong("path", "to", "property");
     FakePath shouldNotMatch = FakePath.pathAlong("notMatched");
-    FakePath shouldMatchClassPath= FakePath.pathAlong("");
     HasNodesAlongPath classPath = HasNodesAlongPath.path("");
+    FakePath shouldMatchClassPath= FakePath.pathAlong("");
 
     @Override protected Matcher<?> createMatcher() {
         return composedPath;
     }
 
-    public void testMatchesPathComposedOfNodesLeadingToProperty() {
+    @Test public void
+    matchesPathToProperty() {
         assertMatches("simple path", simplePath, shouldMatchSimplePath);
         assertMatches("composed path", composedPath, shouldMatchComposedPath);
     }
 
-    public void testWillNotMatchIfPathComponentIsNotPresent() {
+    @Test public void
+    wontMatchIfPathComponentIsNotFound() {
         assertDoesNotMatch("simple path", simplePath, shouldNotMatch);
     }
 
-    public void testBlankPathMatchesPathOfClass() {
+    @Test public void
+    blankPathMatchesPathOfClass() {
     	 assertMatches("class path", classPath, shouldMatchClassPath);
     }
     
-     public void testHasHumanReadableDescription() {
+    @Test public void
+    hasHumanReadableDescription() {
         assertDescription(" \"property\"", simplePath);        
         assertDescription(" \"path\"-> \"to\"-> \"property\"", composedPath);        
     }

@@ -1,7 +1,8 @@
 package org.testinfected.hamcrest.validation;
 
-import org.hamcrest.AbstractMatcherTest;
 import org.hamcrest.Matcher;
+import org.junit.Test;
+import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import javax.validation.ConstraintViolation;
 import java.util.Arrays;
@@ -25,28 +26,34 @@ public class ViolationMatchersTest extends AbstractMatcherTest {
         return violates(anything());
     }
 
-    public void testProvidesConvenientShortcutForMatchingAViolationInACollection() {
+    @Test public void
+    providesConvenientShortcutForMatchingAViolationInACollection() {
         assertMatches("a match", violates(equalTo(shouldMatch)), asSet(shouldMatch, wontMatch));
     }
 
-    public void testDoesNotMatchViolationSetWhenNoViolationIsMatched() {
+    @Test public void
+    doesNotMatchViolationSetWhenNoViolationIsMatched() {
         assertDoesNotMatch("no match", violates(equalTo(shouldMatch)), asSet(wontMatch));
     }
 
-    public void testDoesNotMatchEmptyViolationSet() {
+    @Test public void
+    doesNotMatchEmptyViolationSet() {
         assertDoesNotMatch("no violation", violates(), asSet());
     }
 
-    public void testProvidesConvenientShortcutToMatchAViolationAgainstSeveralMatchers() {
+    @Test public void
+    providesConvenientShortcutForMatchingAViolationAgainstSeveralMatchers() {
         assertMatches("multiple matchers", violation(equalTo(shouldMatch), hasToString("should match")), shouldMatch);
     }
 
-    public void testProvidesConvenientShortcutToMatchOnPathProperty() {
+    @Test public void
+    providesConvenientShortcutForMatchingOnPathProperty() {
         assertMatches("path", ViolationMatchers.<Object>on("path.to.expression"), aViolation().on(pathAlong("path", "to", "expression")));
         assertDoesNotMatch("path mismatch", ViolationMatchers.<Object>on("expression"), aViolation().on(pathAlong("mismatch")));
     }
 
-    public void testProvidesConvenientShortcutToMatchOnMessageTemplate() {
+    @Test public void
+    providesConvenientShortcutForMatchingOnMessageTemplate() {
         assertMatches("message", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("error.key"));
         assertDoesNotMatch("message mismatch", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("mismatched.key"));
     }
