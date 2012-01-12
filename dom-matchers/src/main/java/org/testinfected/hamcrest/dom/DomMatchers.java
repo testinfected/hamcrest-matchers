@@ -4,10 +4,12 @@ import static org.hamcrest.Matchers.allOf;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.w3c.dom.Element;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A collection of hamcrest matchers to validate DOM elements
@@ -90,20 +92,82 @@ public class DomMatchers {
     }
 
     /**
+     * Checks that a collection contains a single element matched against a given matcher.
+     *
+     * @see DomMatchers#containsInThisOrder(java.util.List)
+     * @param elementMatcher the matcher used to validate the {@link org.w3c.dom.Element}
+     */
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> withElement(Matcher<? super Element> elementMatcher) {
+        return containsInThisOrder(elementMatcher);
+    }
+
+    /**
      * Checks that a group of elements are matched in order by a group of matchers.  Each validated
-     * element is matched by a single matcher argument, i.e. first element is matched by
-     * the first matcher argument, second element is matched by second matcher argument, and
+     * element is matched against a single matcher argument, i.e. the first element is matched against
+     * the first matcher argument, the second element is matched by second matcher argument, and
      * so on.
+     *
+     * @see DomMatchers#containsInThisOrder(java.util.List)
      * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
      */
     @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> inOrder(Matcher<? super Element>... elementMatchers) {
-        // As of hacmrest 1.3.RC2 hasItems family of hamcrest matchers return Matcher<Iterable<? extends T>>
-        // whereas the contains ones return Iterable<Matcher<T>>. Unfortunately, this makes them impossible
-        // to combine without using unchecked assignements.
+    public static Matcher<Iterable<Element>> containsInThisOrder(Matcher<? super Element>... elementMatchers) {
+        return containsInThisOrder(Arrays.asList(elementMatchers));
+    }
+
+    /**
+     * <p>
+     * Checks that a group of elements are matched in order by a list of matchers.  Each validated
+     * element is matched against a single matcher argument, i.e. the first element is matched against
+     * the first element in the matcher list, the second element is matched against the second element in the
+     * matcher list, and so on.
+     * </p>
+     * <p>
+     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher<Iterable<? extends T>></code>
+     * whereas the <code>contains</code> family of matchers return <code>Iterable<Matcher<T>></code>.
+     * Unfortunately, this makes them impossible to combine as arguments to
+     * {@link DomMatchers#hasSelector(String, org.hamcrest.Matcher)} without this method.
+     * <p>
+     *
+     * @param elementMatchers the list fo matchers used to validate the group of {@link org.w3c.dom.Element}s
+     */
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> containsInThisOrder(List<Matcher<? super Element>> elementMatchers) {
         // Let's force Matcher<Iterable<Element>>, since Element is an interface
-        // (generics can be so confusing at times)
-        return new IsIterableContainingInOrder(Arrays.asList(elementMatchers));
+        return new IsIterableContainingInOrder(elementMatchers);
+    }
+
+    /**
+     * Checks that a group of elements are matched in any order by a group of matchers.  Each validated
+     * element is matched against a single matcher argument.
+     *
+     * @see DomMatchers#containsInAnyOrder(org.hamcrest.Matcher[])
+     * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
+     */
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> containsInAnyOrder(Matcher<? super Element>... elementMatchers) {
+        return containsInAnyOrder(Arrays.asList(elementMatchers));
+    }
+
+    /**
+     * <p>
+     * Checks that a group of elements are matched in any order by a list of matchers.  Each validated
+     * element is matched against a single matcher argument.
+     * </p>
+     * <p>
+     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher<Iterable<? extends T>></code>
+     * whereas the <code>contains</code> family of matchers return <code>Iterable<Matcher<T>></code>.
+     * Unfortunately, this makes them impossible to combine as arguments to
+     * {@link DomMatchers#hasSelector(String, org.hamcrest.Matcher)} without this method.
+     * <p>
+     *
+     * @param elementMatchers the list fo matchers used to validate the group of {@link org.w3c.dom.Element}s
+     */
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> containsInAnyOrder(List<Matcher<? super Element>> elementMatchers) {
+        // Let's force Matcher<Iterable<Element>>, since Element is an interface
+        return new IsIterableContainingInAnyOrder(elementMatchers);
     }
 
     /**

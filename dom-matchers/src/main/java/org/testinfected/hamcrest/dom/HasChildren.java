@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testinfected.hamcrest.dom.DomMatchers.inOrder;
+import static org.testinfected.hamcrest.dom.DomMatchers.containsInThisOrder;
 
 public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
@@ -30,7 +30,7 @@ public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
     @Factory
     public static Matcher<Element> hasChildren(Matcher<? super Element>... childrenMatchers) {
-        return hasChildren(inOrder(childrenMatchers));
+        return hasChildren(containsInThisOrder(childrenMatchers));
     }
 
     @SuppressWarnings("unchecked")
