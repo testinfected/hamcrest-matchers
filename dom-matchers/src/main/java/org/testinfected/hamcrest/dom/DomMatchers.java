@@ -67,7 +67,7 @@ public class DomMatchers {
      * @param selector the selector expression to select a single descendant of the element.
      * @param elementMatcher the matcher to validate the descendant found.
      */
-    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element> elementMatcher) {
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element> elementMatcher) {
         return HasUniqueSelector.hasUniqueSelector(selector, elementMatcher);
     }
 
@@ -78,7 +78,7 @@ public class DomMatchers {
      * @param selector the selector expression to filter descendants of the element.
      * @param elementMatchers matchers to validate the unique descendant found.
      */
-    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<Element>... elementMatchers) {
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element>... elementMatchers) {
         return HasUniqueSelector.hasUniqueSelector(selector, allOf(elementMatchers));
     }
 
@@ -283,7 +283,7 @@ public class DomMatchers {
      * Each child will be matched against the matchers at same position, i.e. first child
      * will be matched against the first matcher, second child againt second matcher, and so on.
      */
-    public static Matcher<Element> hasChildren(Matcher<Element>... childrenMatchers) {
+    public static Matcher<Element> hasChildren(Matcher<? super Element>... childrenMatchers) {
         return HasChildren.hasChildren(childrenMatchers);
     }
 
@@ -291,7 +291,7 @@ public class DomMatchers {
      * Checks that at least one child of an element is matched by the given matcher.
      */
     @SuppressWarnings("unchecked")
-    public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
+    public static Matcher<Element> hasChild(Matcher<? super Element> childMatcher) {
         return HasChildren.hasChild(childMatcher);
     }
 

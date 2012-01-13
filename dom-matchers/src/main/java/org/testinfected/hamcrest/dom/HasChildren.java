@@ -35,7 +35,7 @@ public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
     @SuppressWarnings("unchecked")
     @Factory
-    public static Matcher<Element> hasChild(Matcher<Element> childMatcher) {
+    public static Matcher<Element> hasChild(Matcher<? super Element> childMatcher) {
         return hasChildren(Matchers.<Element>hasItems(childMatcher));
     }
 
