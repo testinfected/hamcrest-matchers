@@ -4,9 +4,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.IsEqual;
 
 /**
- * A collection of hamcrest matchers to be used with plain java objects. 
+ * A collection of matchers for {@link java.lang.String}s.
  */
-public class CoreMatchers {
+public class StringMatchers {
 
     /**
      * Checks that a string is empty or contains only blank characters.
