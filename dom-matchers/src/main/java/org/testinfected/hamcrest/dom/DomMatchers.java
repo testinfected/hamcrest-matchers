@@ -20,275 +20,268 @@ public class DomMatchers {
     private DomMatchers() {}
 
     /**
-     * Checks that an element contains descendants referenced by the given CSS selector that
-     * satisfy a list of matchers in order.
-     * 
-     * If the selector picks out more than one element, the selected elements will be matched
-     * <strong>in order</strong> by the matchers provided as arguments (
-     * i.e. the first element selected will be matched by the first matcher
-     * argument, the second element by the second matcher argument, and so on ...)
+     * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector with the specified matchers matching the subjects of the
+     * selector in any order. This is equivalent to <code>hasSelector(selector, matchesInAnyOrder(subjectsMatchers))</code>.
      *
-     * @param selector the selector expression to filter descendants of the element.
-     * @param elementsMatchers matchers used to validate the list of descendants selected by the selector.
+     * @param selector the CSS3 selector expression to match against the element
+     * @param subjectsMatchers matchers to match the elements represented by the selector
      */
-    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
-        return HasSelector.hasSelector(selector, elementsMatchers);
+    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... subjectsMatchers) {
+        return HasSelector.hasSelector(selector, subjectsMatchers);
     }
 
     /**
-     * Checks that the an element contains descendants referenced by the given CSS selector that
-     * satisfy a list of matchers in order.
+     * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector with the specified matchers matching the subjects of the selector.
      *
-     * If the selector picks out more than one element, the selected elements will be matched
-     * <strong>in order</strong> by the matchers provided as arguments (
-     * i.e. the first element selected will be matched by the first matcher
-     * argument, the second element by the second matcher argument, and so on ...)
-     *
-     * @param selector the selector expression to filter descendants of the element.
-     * @param elementsMatcher matchers used to validate element(s) selected by the selector.
+     * @param selector the CSS3 selector expression to match against the element
+     * @param subjectsMatcher matchers to match the elements represented by the selector
      */
-    public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
-        return HasSelector.hasSelector(selector, elementsMatcher);
+    public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> subjectsMatcher) {
+        return HasSelector.hasSelector(selector, subjectsMatcher);
+    }
+
+
+    /**
+     * Checks that a collection of {@link org.w3c.dom.Element}a is of a specified size.
+     *
+     * @param size the expected number of elements
+     */
+    public static Matcher<Iterable<Element>> hasSize(int size) {
+        return Matchers.iterableWithSize(size);
     }
 
     /**
-     * Checks that an element contains one and only one descendant referenced by the given CSS selector.
+     * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector and that the selector represents a single
+     * child element.
      *
-     * @param selector the selector expression to select a single descendant of the element.
+     * @param selector the CSS3 selector expression to match against the element
      */
     public static Matcher<Element> hasUniqueSelector(String selector) {
         return HasUniqueSelector.hasUniqueSelector(selector);
     }
 
     /**
-     * Checks that an element contains one and only one descendant referenced by the given CSS selector
-     * and that this descendant satisfy the given matcher.
+     * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector with the specified matcher matching the only
+     * subject of the selector.
      *
-     * @param selector the selector expression to select a single descendant of the element.
-     * @param elementMatcher the matcher to validate the descendant found.
+     * @param selector the CSS3 selector expression to match against the element
+     * @param subjectMatcher the matcher to match the single element represented by the selector
      */
-    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element> elementMatcher) {
-        return HasUniqueSelector.hasUniqueSelector(selector, elementMatcher);
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element> subjectMatcher) {
+        return HasUniqueSelector.hasUniqueSelector(selector, subjectMatcher);
     }
 
     /**
-     * Checks that an element contains a single descendant selected by the given CSS selector
-     * and that this element is matched by <strong>all</strong> given matchers.
+     * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector and that the single element represented by the selector
+     * is matched by all specified matchers.
+     * This is a equivalent to <code>hasUniqueSelector(selector, anElement(subjectMatchers))</code>.
      *
-     * @param selector the selector expression to filter descendants of the element.
-     * @param elementMatchers matchers to validate the unique descendant found.
+     * @param selector the CSS3 selector expression to match against the element
+     * @param subjectMatchers the matchers to match the single element represented by the selector
      */
-    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element>... elementMatchers) {
-        return HasUniqueSelector.hasUniqueSelector(selector, allOf(elementMatchers));
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element>... subjectMatchers) {
+        return HasUniqueSelector.hasUniqueSelector(selector, subjectMatchers);
     }
 
     /**
-     * Checks that an element does <strong>not</strong> contain any element matched by the given
-     * CSS selector.
-     * @param selector the CSS selector
+     * Checks that an {@link org.w3c.dom.Element} is not matched by the specified CSS3 selector expression.
+     * @param selector the CSS3 selector expression
      */
     public static Matcher<Element> hasNoSelector(String selector) {
     	return HasNoSelector.hasNoSelector(selector);
     }
 
     /**
-     * Checks that a collection contains a single element matched against a given matcher.
-     *
-     * @see DomMatchers#containsInThisOrder(java.util.List)
-     * @param elementMatcher the matcher used to validate the {@link org.w3c.dom.Element}
+     * Checks that a collection contains {@link org.w3c.dom.Element}s that are matched in order by the specified matchers.
+     * <p>
+     * Each element in the collection must be matched and each specified matcher must match an element.
+     * Matching occurs in order, so the first element in the collection is matched against the first specified matcher,
+     * the second element is matched by second matcher argument, and so on.
+     * </p>
+     * @see DomMatchers#matches(java.util.List)
+     * @param elementsMatchers the matchers to match the collection of {@link org.w3c.dom.Element}s
      */
     @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> withElement(Matcher<? super Element> elementMatcher) {
-        return containsInThisOrder(elementMatcher);
-    }
-
-    /**
-     * Checks that a group of elements are matched in order by a group of matchers.  Each validated
-     * element is matched against a single matcher argument, i.e. the first element is matched against
-     * the first matcher argument, the second element is matched by second matcher argument, and
-     * so on.
-     *
-     * @see DomMatchers#containsInThisOrder(java.util.List)
-     * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
-     */
-    @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> containsInThisOrder(Matcher<? super Element>... elementMatchers) {
-        return containsInThisOrder(Arrays.asList(elementMatchers));
+    public static Matcher<Iterable<Element>> matches(Matcher<? super Element>... elementsMatchers) {
+        return matches(Arrays.asList(elementsMatchers));
     }
 
     /**
      * <p>
-     * Checks that a group of elements are matched in order by a list of matchers.  Each validated
-     * element is matched against a single matcher argument, i.e. the first element is matched against
-     * the first element in the matcher list, the second element is matched against the second element in the
-     * matcher list, and so on.
+     * Checks that a collection contains {@link org.w3c.dom.Element}s that are matched in order
+     * by the specified list of matchers.
      * </p>
      * <p>
-     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher<Iterable<? extends T>></code>
-     * whereas the <code>contains</code> family of matchers return <code>Iterable<Matcher<T>></code>.
+     * Each element in the collection must be matched and each specified matcher must match an element.
+     * Matching occurs in order, so the first element in the collection is matched against the first matcher in the list,
+     * the second element is matched by second matcher, and so on.
+     * </p>
+     * <p>
+     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher&lt;Iterable&lt;? extends T&gt;&gt;</code>
+     * whereas the <code>contains</code> family of matchers return <code>Iterable&lt;Matcher&lt;T&gt;&gt;</code>.
      * Unfortunately, this makes them impossible to combine as arguments to
      * {@link DomMatchers#hasSelector(String, org.hamcrest.Matcher)} without this method.
      * <p>
      *
-     * @param elementMatchers the list fo matchers used to validate the group of {@link org.w3c.dom.Element}s
+     * @param elementsMatcher the list fo matchers to match the collection of {@link org.w3c.dom.Element}s
      */
     @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> containsInThisOrder(List<Matcher<? super Element>> elementMatchers) {
+    public static Matcher<Iterable<Element>> matches(List<Matcher<? super Element>> elementsMatcher) {
         // Let's force Matcher<Iterable<Element>>, since Element is an interface
-        return new IsIterableContainingInOrder(elementMatchers);
+        return new IsIterableContainingInOrder(elementsMatcher);
     }
 
     /**
-     * Checks that a group of elements are matched in any order by a group of matchers.  Each validated
-     * element is matched against a single matcher argument.
-     *
-     * @see DomMatchers#containsInAnyOrder(org.hamcrest.Matcher[])
-     * @param elementMatchers the matchers used to validate the group of {@link org.w3c.dom.Element}s
-     */
-    @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> containsInAnyOrder(Matcher<? super Element>... elementMatchers) {
-        return containsInAnyOrder(Arrays.asList(elementMatchers));
-    }
-
-    /**
+     * Checks that a collection contains {@link org.w3c.dom.Element}s that are matched
+     * in any order by the specified matchers.
      * <p>
-     * Checks that a group of elements are matched in any order by a list of matchers.  Each validated
-     * element is matched against a single matcher argument.
+     * Each element in the collection must be matched and each specified matcher must match an element.
+     * Matching can occur in any order.
+     * </p>
+     * @see DomMatchers#matchesInAnyOrder(java.util.List)
+     * @param elementsMatchers the matchers to match the collection of {@link org.w3c.dom.Element}s
+     */
+
+    @SuppressWarnings("unchecked")
+    public static Matcher<Iterable<Element>> matchesInAnyOrder(Matcher<? super Element>... elementsMatchers) {
+        return matchesInAnyOrder(Arrays.asList(elementsMatchers));
+    }
+
+    /**
+     * Checks that a collection contains {@link org.w3c.dom.Element}s that are matched
+     * in any order by the specified list of matchers.
+     * <p>
+     * Each element in the collection must be matched and each specified matcher must match an element.
+     * Matching can occur in any order.
      * </p>
      * <p>
-     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher<Iterable<? extends T>></code>
-     * whereas the <code>contains</code> family of matchers return <code>Iterable<Matcher<T>></code>.
+     * Note: As of hamcrest 1.3, the <code>hasItems</code> family of matchers return <code>Matcher&lt;Iterable&lt;? extends T&gt;&gt;</code>
+     * whereas the <code>contains</code> family of matchers return <code>Iterable&lt;Matcher&lt;T&gt;&gt;</code>.
      * Unfortunately, this makes them impossible to combine as arguments to
      * {@link DomMatchers#hasSelector(String, org.hamcrest.Matcher)} without this method.
      * <p>
      *
-     * @param elementMatchers the list fo matchers used to validate the group of {@link org.w3c.dom.Element}s
+     * @param elementsMatcher the list fo matchers to match the collection of {@link org.w3c.dom.Element}s
      */
     @SuppressWarnings("unchecked")
-    public static Matcher<Iterable<Element>> containsInAnyOrder(List<Matcher<? super Element>> elementMatchers) {
+    public static Matcher<Iterable<Element>> matchesInAnyOrder(List<Matcher<? super Element>> elementsMatcher) {
         // Let's force Matcher<Iterable<Element>>, since Element is an interface
-        return new IsIterableContainingInAnyOrder(elementMatchers);
+        return new IsIterableContainingInAnyOrder(elementsMatcher);
     }
 
     /**
-     * Checks that a group of elements contains at least one element that is matched by the matcher provided.
-     * 
-     * @param elementMatcher matcher for the element to look for.
-     */
-    @SuppressWarnings("unchecked")
-	public static Matcher<Iterable<Element>> hasElement(Matcher<? super Element> elementMatcher) {
-        return Matchers.hasItems(elementMatcher);
-    }
-
-    /**
-     * Checks that a group of elements contains, in any order, at least one matched element for
-     * each given matcher.
+     * Checks that a collection of {@link org.w3c.dom.Element}s contains, in any order, at least one matched element for
+     * each specified matcher.
      *
-     * @param elementMatchers matchers for elements to look for
+     * @param elementsMatchers matchers to match {@link org.w3c.dom.Element}s in the collection
      */
-    public static Matcher<Iterable<Element>> hasElements(Matcher<? super Element>... elementMatchers) {
-        return Matchers.hasItems(elementMatchers);
+    public static Matcher<Iterable<Element>> includes(Matcher<? super Element>... elementsMatchers) {
+        return Matchers.hasItems(elementsMatchers);
     }
 
     /**
-     * Checks that an element has the specified tag.
+     * Checks that an {@link org.w3c.dom.Element} has the specified tag.
      */
-    public static Matcher<Element> withTag(String tagName) {
-        return WithTag.withTag(tagName);
+    public static Matcher<Element> hasTag(String tagName) {
+        return HasTag.hasTag(tagName);
     }
 
     /**
-     * Checks that an element content matches exactly a given text.
+     * Checks that an {@link org.w3c.dom.Element} content is equal to the specified text.
      */
-    public static Matcher<Element> withText(String contentText) {
-        return WithContentText.withContent(contentText);
-    }
-    
-    /**
-     * Checks that an element content contains only blank characters.
-     */
-    public static Matcher<Element> withBlankText() {
-    	return WithContentText.withBlankContent();
+    public static Matcher<Element> hasText(String contentText) {
+        return HasContentText.hasContent(contentText);
     }
 
     /**
-     * Checks that an element content text is matched by the given matcher.
+     * Checks that an {@link org.w3c.dom.Element} content text matches the specified matcher.
      */
-    public static Matcher<Element> withText(Matcher<? super String> contentMatcher) {
-        return WithContentText.withContent(contentMatcher);
+    public static Matcher<Element> hasText(Matcher<? super String> contentMatcher) {
+        return HasContentText.hasContent(contentMatcher);
     }
 
     /**
-     * Checks that an element has a specified attribute whose value is matched by the given matcher.
+     * Checks that an {@link org.w3c.dom.Element} content contains only blank characters.
+     */
+    public static Matcher<Element> hasBlankText() {
+    	return HasContentText.hasBlankContent();
+    }
+
+    /**
+     * Checks that an {@link org.w3c.dom.Element} has an attribute with the specified value.
      *
-     * @param name name of the attribute to validate.
-     * @param valueMatcher matcher used to validate the attribute's value.
+     * @param name the name of the attribute.
+     * @param value the expected value of the attribute
      */
-    public static Matcher<Element> withAttribute(String name, Matcher<? super String> valueMatcher) {
-        return WithAttribute.withAttribute(name, valueMatcher);
+    public static Matcher<Element> hasAttribute(String name, String value) {
+        return HasAttribute.hasAttribute(name, value);
     }
 
     /**
-     * Checks that an element has the specified attribute with an expected value.
+     * Checks that an {@link org.w3c.dom.Element} has an attribute whose value matches the specified matcher.
      *
-     * @param name the name of the attribute to validate.
-     * @param value the expected value of the attribute.
+     * @param name the name of the attribute to match
+     * @param valueMatcher matcher for matching the attribute's value.
      */
-    public static Matcher<Element> withAttribute(String name, String value) {
-        return WithAttribute.withAttribute(name, value);
+    public static Matcher<Element> hasAttribute(String name, Matcher<? super String> valueMatcher) {
+        return HasAttribute.hasAttribute(name, valueMatcher);
     }
 
     /**
-     * Checks that an element has a given attribute, whatever its value.
+     * Checks that an {@link org.w3c.dom.Element} has the specified attribute, whatever its value.
      *
-     * @param name the name of the expected attribute.
+     * @param name the name of the attribute
      */
-    public static Matcher<Element> withName(String name) {
-        return WithAttribute.withName(name);
+    public static Matcher<Element> hasName(String name) {
+        return HasAttribute.hasName(name);
     }
 
     /**
-     * Checks that an element has an id attribute with the specified value.
+     * Checks that an {@link org.w3c.dom.Element} has an id attribute with the specified value.
      *
-     * @param id expected value of the id attribute.
+     * @param id the expected value of the id attribute
      */
-    public static Matcher<Element> withId(String id) {
-        return WithAttribute.withId(id);
+    public static Matcher<Element> hasId(String id) {
+        return HasAttribute.hasId(id);
     }
 
     /**
-     * Checks that an element has a given class. Note that the element can have other classes as well.
+     * Checks that an {@link org.w3c.dom.Element} has the specified CSS class.
+     * Note that the element can have other classes as well.
      *
-     * @param className the class the element should have.
+     * @param className the expected class the element
      */
-    public static Matcher<Element> withClassName(String className) {
-        return WithAttribute.withClassName(className);
+    public static Matcher<Element> hasClassName(String className) {
+        return HasAttribute.hasClassName(className);
     }
 
     /**
-     * Checks that children of an element are matched <strong>in order</strong> by a group of matchers.
+     * Checks that children of an {@link org.w3c.dom.Element} match in order the specified matchers.
      * The number of matchers must be the same as the number of children.
-     *
-     * Each child will be matched against the matchers at same position, i.e. first child
-     * will be matched against the first matcher, second child againt second matcher, and so on.
-     */
-    public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
-        return HasChildren.hasChildren(childrenMatcher);
-    }
-
-    /**
-     * Checks that children of an element are matched <strong>in order</strong> by a group of
-     * matchers. The number of matchers must be the same as the number of children.
-     *
-     * Each child will be matched against the matchers at same position, i.e. first child
-     * will be matched against the first matcher, second child againt second matcher, and so on.
+     * <p>
+     * Matching occurs in order, so the first child is matched against the first matcher,
+     * the second child against second matcher, and so on.
+     * </p>
      */
     public static Matcher<Element> hasChildren(Matcher<? super Element>... childrenMatchers) {
         return HasChildren.hasChildren(childrenMatchers);
     }
 
     /**
-     * Checks that at least one child of an element is matched by the given matcher.
+     * Checks that children of an {@link org.w3c.dom.Element} match in order the specified matchers.
+     * The number of matchers must be the same as the number of children.
+     * <p>
+     * Matching occurs in order, so the first child is matched against the first matcher,
+     * the second child against second matcher, and so on.
+     * </p>
+     */
+    public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
+        return HasChildren.hasChildren(childrenMatcher);
+    }
+
+    /**
+     * Checks that at least one child of an {@link org.w3c.dom.Element} is matched against
+     * the given matcher.
      */
     @SuppressWarnings("unchecked")
     public static Matcher<Element> hasChild(Matcher<? super Element> childMatcher) {
@@ -296,11 +289,9 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that a collection of elements is of a certain size.
-     *
-     * @param size the expected number of elements.
+     * Combines a group of matchers for matching an {@link org.w3c.dom.Element}.
      */
-    public static Matcher<Iterable<Element>> withSize(int size) {
-        return Matchers.iterableWithSize(size);
+    public static Matcher<Element> anElement(final Matcher<? super Element>... elementMatchers) {
+        return allOf(elementMatchers);
     }
 }

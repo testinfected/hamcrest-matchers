@@ -8,9 +8,9 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Element;
 
-public class WithContentText extends FeatureMatcher<Element, String> {
+public class HasContentText extends FeatureMatcher<Element, String> {
 
-    public WithContentText(Matcher<? super String> contentMatcher) {
+    public HasContentText(Matcher<? super String> contentMatcher) {
         super(contentMatcher, "an element with content text", "element content text");
     }
 
@@ -20,18 +20,18 @@ public class WithContentText extends FeatureMatcher<Element, String> {
     }
 
     @Factory
-    public static Matcher<Element> withContent(Matcher<? super String> contentMatcher) {
-        return new WithContentText(contentMatcher);
+    public static Matcher<Element> hasBlankContent() {
+        return hasContent(isBlank());
     }
 
     @Factory
-    public static Matcher<Element> withContent(String contentText) {
-        return withContent(equalTo(contentText));
+    public static Matcher<Element> hasContent(String contentText) {
+        return hasContent(equalTo(contentText));
     }
 
     @Factory
-	public static Matcher<Element> withBlankContent() {
-		return withContent(isBlank());
-	}
+    public static Matcher<Element> hasContent(Matcher<? super String> contentMatcher) {
+        return new HasContentText(contentMatcher);
+    }
 
 }

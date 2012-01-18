@@ -7,9 +7,9 @@ import org.w3c.dom.Element;
 
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 
-public class WithTag extends FeatureMatcher<Element, String> {
+public class HasTag extends FeatureMatcher<Element, String> {
 
-    public WithTag(Matcher<? super String> valueMatcher) {
+    public HasTag(Matcher<? super String> valueMatcher) {
         super(valueMatcher, "element with tag", "element tag");
     }
 
@@ -18,12 +18,12 @@ public class WithTag extends FeatureMatcher<Element, String> {
         return actual.getTagName();
     }
 
-    public static Matcher<Element> withTag(Matcher<? super String> valueMatcher) {
-        return new WithTag(valueMatcher);
+    @Factory
+    public static Matcher<Element> hasTag(String tagName) {
+        return hasTag(equalToIgnoringCase(tagName));
     }
 
-    @Factory
-    public static Matcher<Element> withTag(String tagName) {
-        return withTag(equalToIgnoringCase(tagName));
+    public static Matcher<Element> hasTag(Matcher<? super String> valueMatcher) {
+        return new HasTag(valueMatcher);
     }
 }

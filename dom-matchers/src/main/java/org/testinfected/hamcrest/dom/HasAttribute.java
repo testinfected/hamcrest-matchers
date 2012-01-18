@@ -8,10 +8,10 @@ import org.w3c.dom.Element;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.AnyOf.anyOf;
 
-public class WithAttribute extends FeatureMatcher<Element, String> {
+public class HasAttribute extends FeatureMatcher<Element, String> {
     private final String attributeName;
 
-    public WithAttribute(String attributeName, Matcher<? super String> valueMatcher) {
+    public HasAttribute(String attributeName, Matcher<? super String> valueMatcher) {
         super(valueMatcher, "element with attribute \"" + attributeName + "\"", "element attribute \"" + attributeName + "\"");
         this.attributeName = attributeName;
     }
@@ -22,24 +22,24 @@ public class WithAttribute extends FeatureMatcher<Element, String> {
     }
 
     @Factory
-    public static Matcher<Element> withAttribute(String name, Matcher<? super String> valueMatcher) {
-        return new WithAttribute(name, valueMatcher);
+    public static Matcher<Element> hasAttribute(String name, String value) {
+        return hasAttribute(name, equalTo(value));
     }
 
     @Factory
-    public static Matcher<Element> withAttribute(String name, String value) {
-        return withAttribute(name, equalTo(value));
+    public static Matcher<Element> hasId(String id) {
+        return hasAttribute("id", equalTo(id));
     }
 
     @Factory
-    public static Matcher<Element> withId(String id) {
-        return withAttribute("id", equalTo(id));
+    public static Matcher<Element> hasName(String name) {
+        return hasAttribute("name", equalTo(name));
     }
 
     @SuppressWarnings("unchecked")
     @Factory
-    public static Matcher<Element> withClassName(String className) {
-        return withAttribute("class", anyOf(
+    public static Matcher<Element> hasClassName(String className) {
+        return hasAttribute("class", anyOf(
                 equalTo(className),
                 startsWith(className + " "),
                 endsWith(" " + className),
@@ -48,7 +48,7 @@ public class WithAttribute extends FeatureMatcher<Element, String> {
     }
 
     @Factory
-    public static Matcher<Element> withName(String name) {
-        return withAttribute("name", equalTo(name));
+    public static Matcher<Element> hasAttribute(String name, Matcher<? super String> valueMatcher) {
+        return new HasAttribute(name, valueMatcher);
     }
 }

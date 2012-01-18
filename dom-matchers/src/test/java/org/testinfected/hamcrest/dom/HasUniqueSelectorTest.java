@@ -7,7 +7,7 @@ import org.testinfected.hamcrest.AbstractMatcherTest;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.toElement;
 import static org.testinfected.hamcrest.dom.HasUniqueSelector.hasUniqueSelector;
-import static org.testinfected.hamcrest.dom.WithTag.withTag;
+import static org.testinfected.hamcrest.dom.HasTag.hasTag;
 
 public class HasUniqueSelectorTest extends AbstractMatcherTest {
 
@@ -25,13 +25,13 @@ public class HasUniqueSelectorTest extends AbstractMatcherTest {
 
     @Test public void
     matchesSelectedChildAgainstGivenMatcher() {
-        assertMatches("matching child", hasUniqueSelector("#content", withTag("div")), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("child does not match", hasUniqueSelector("#content", withTag("div")), toElement("<span id='content'>content</span>"));
+        assertMatches("matching child", hasUniqueSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
+        assertDoesNotMatch("child does not match", hasUniqueSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
     }
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("has unique selector \"#content\" element with tag \"div\"", hasUniqueSelector("#content", withTag(equalTo("div"))));
+        assertDescription("has unique selector \"#content\" element with tag \"div\"", hasUniqueSelector("#content", HasTag.hasTag(equalTo("div"))));
     }
 
     @Test public void

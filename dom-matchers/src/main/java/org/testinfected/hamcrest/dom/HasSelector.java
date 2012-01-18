@@ -8,11 +8,15 @@ import static com.threelevers.css.Selector.from;
 
 public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     private final String selector;
-    private final Matcher<Iterable<Element>> elementsMatcher;
+    private final Matcher<Iterable<Element>> subjectsMatcher;
 
-    public HasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
+    public HasSelector(String selector) {
+        this(selector, null);
+    }
+
+    public HasSelector(String selector, Matcher<Iterable<Element>> subjectsMatchers) {
         this.selector = selector;
-        this.elementsMatcher = elementsMatcher;
+        this.subjectsMatcher = subjectsMatchers;
     }
 
     @Override
@@ -23,10 +27,12 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
-        boolean valueMatches = elementsMatcher.matches(elements);
+        if (subjectsMatcher == null) return true;
+
+        boolean valueMatches = subjectsMatcher.matches(elements);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
-            elementsMatcher.describeMismatch(elements, mismatchDescription);
+            subjectsMatcher.describeMismatch(elements, mismatchDescription);
         }
         return valueMatches;
     }
@@ -34,18 +40,26 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     public void describeTo(Description description) {
         description.appendText("has selector \"");
         description.appendText(selector);
-        description.appendText("\" ");
-        elementsMatcher.describeTo(description);
+        description.appendText("\"");
+        if (subjectsMatcher != null) {
+            description.appendText(" ");
+            subjectsMatcher.describeTo(description);
+        }
     }
 
     @Factory
-    public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> elementsMatcher) {
-        return new HasSelector(selector, elementsMatcher);
+    public static Matcher<Element> hasSelector(String selector) {
+        return new HasSelector(selector);
     }
 
     @Factory
-    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... elementsMatchers) {
-        return hasSelector(selector, Matchers.<Element>hasItems(elementsMatchers));
+    public static Matcher<Element> hasSelector(String selector, Matcher<? super Element>... subjectsMatchers) {
+        return hasSelector(selector, Matchers.<Element>hasItems(subjectsMatchers));
+    }
+
+    @Factory
+    public static Matcher<Element> hasSelector(String selector, Matcher<Iterable<Element>> subjectsMatcher) {
+        return new HasSelector(selector, subjectsMatcher);
     }
 
 }

@@ -6,9 +6,9 @@ import org.hamcrest.Matcher;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class WithRootElement extends FeatureMatcher<Document, Element> {
+public class HasRootElement extends FeatureMatcher<Document, Element> {
 
-    public WithRootElement(Matcher<? super Element> elementMatcher) {
+    public HasRootElement(Matcher<? super Element> elementMatcher) {
         super(elementMatcher, "a document", "document");
     }
 
@@ -18,7 +18,7 @@ public class WithRootElement extends FeatureMatcher<Document, Element> {
     }
 
     @Factory
-    public static Matcher<? super Document> withRootElement(Matcher<? super Element> elementMatcher) {
-        return new WithRootElement(elementMatcher);
+    public static Matcher<? super Document> hasRootElement(Matcher<? super Element> elementMatcher) {
+        return new HasRootElement(elementMatcher);
     }
 }

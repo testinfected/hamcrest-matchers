@@ -11,8 +11,6 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testinfected.hamcrest.dom.DomMatchers.containsInThisOrder;
-
 public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
     public HasChildren(Matcher<Iterable<Element>> childrenMatcher) {
@@ -24,19 +22,19 @@ public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
     }
 
     @Factory
-    public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
-        return new HasChildren(childrenMatcher);
-    }
-
-    @Factory
     public static Matcher<Element> hasChildren(Matcher<? super Element>... childrenMatchers) {
-        return hasChildren(containsInThisOrder(childrenMatchers));
+        return hasChildren(DomMatchers.matches(childrenMatchers));
     }
 
     @SuppressWarnings("unchecked")
     @Factory
     public static Matcher<Element> hasChild(Matcher<? super Element> childMatcher) {
         return hasChildren(Matchers.<Element>hasItems(childMatcher));
+    }
+
+    @Factory
+    public static Matcher<Element> hasChildren(Matcher<Iterable<Element>> childrenMatcher) {
+        return new HasChildren(childrenMatcher);
     }
 
     private static class Elements {

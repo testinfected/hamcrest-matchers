@@ -10,14 +10,15 @@ import org.w3c.dom.Element;
 import static com.threelevers.css.Selector.from;
 import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.anything;
+import static org.testinfected.hamcrest.dom.DomMatchers.anElement;
 
 public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     private final String selector;
-    private final Matcher<? super Element> elementMatcher;
+    private final Matcher<? super Element> subjectMatcher;
 
-    public HasUniqueSelector(String selector, Matcher<? super Element> elementMatcher) {
+    public HasUniqueSelector(String selector, Matcher<? super Element> subjectMatcher) {
         this.selector = selector;
-        this.elementMatcher = elementMatcher;
+        this.subjectMatcher = subjectMatcher;
     }
 
     @Override
@@ -30,10 +31,10 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
             return false;
         }
         Element element = Iterables.getOnlyElement(allElements);
-        boolean valueMatches = elementMatcher.matches(element);
+        boolean valueMatches = subjectMatcher.matches(element);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
-            elementMatcher.describeMismatch(element, mismatchDescription);
+            subjectMatcher.describeMismatch(element, mismatchDescription);
         }
         return valueMatches;
     }
@@ -46,7 +47,7 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
         description.appendText("has unique selector \"");
         description.appendText(selector);
         description.appendText("\" ");
-        elementMatcher.describeTo(description);
+        subjectMatcher.describeTo(description);
     }
 
     @Factory
@@ -55,7 +56,12 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     }
 
     @Factory
-    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element> elementMatcher) {
-        return new HasUniqueSelector(selector, elementMatcher);
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element>... subjectMatchers) {
+        return hasUniqueSelector(selector, anElement(subjectMatchers));
+    }
+
+    @Factory
+    public static Matcher<Element> hasUniqueSelector(String selector, Matcher<? super Element> subjectMatcher) {
+        return new HasUniqueSelector(selector, subjectMatcher);
     }
 }
