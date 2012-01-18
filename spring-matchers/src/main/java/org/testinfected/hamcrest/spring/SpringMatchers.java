@@ -15,7 +15,7 @@ public class SpringMatchers {
      * @param key the key under which the value to check is stored in the model.
      * @param value the expected value stored in the model.
      */
-    public static <T> Matcher<? super Model> hasAttribute(final String key, T value) {
+    public static <T> Matcher<Model> hasAttribute(final String key, T value) {
         return HasAttribute.hasAttribute(key, value);
     }
 
@@ -26,7 +26,7 @@ public class SpringMatchers {
      * @param key the key under which the value to check is stored in the model.
      * @param valueMatcher matcher used to check the value stored in the model.
      */
-    public static <T> Matcher<? super Model> hasAttributeValue(final String key, Matcher<? super T> valueMatcher) {
+    public static <T> Matcher<Model> hasAttributeValue(final String key, Matcher<? super T> valueMatcher) {
         return HasAttribute.hasAttributeValue(key, valueMatcher);
     }
 
@@ -36,7 +36,7 @@ public class SpringMatchers {
      *
      * @param key the key under which a non-null value should be stored in the model.
      */
-    public static Matcher<? super Model> containsAttribute(final String key) {
+    public static Matcher<Model> containsAttribute(final String key) {
         return HasAttribute.containsAttribute(key);
     }
 
@@ -44,7 +44,7 @@ public class SpringMatchers {
      * Checks that a view indicates an HTTP redirection to a given location. 
      * @param location expected location of the redirection. 
      */
-    public static Matcher<? super String> isRedirectedTo(String location) {
+    public static Matcher<String> isRedirectedTo(String location) {
         return Matchers.equalTo("redirect:" + location);
     }
 }

@@ -21,16 +21,16 @@ public class HasAttribute<T> extends FeatureMatcher<Model, T> {
     }
 
     @Factory
-    public static <T> Matcher<? super Model> hasAttribute(String key, T value) {
+    public static <T> Matcher<Model> hasAttribute(String key, T value) {
         return hasAttributeValue(key, equalTo(value));
     }
 
     @Factory
-    public static <T> Matcher<? super Model> hasAttributeValue(String key, Matcher<? super T> valueMatcher) {
+    public static <T> Matcher<Model> hasAttributeValue(String key, Matcher<? super T> valueMatcher) {
         return new HasAttribute<T>(key, valueMatcher);
     }
 
-    public static <T> Matcher<? super Model> containsAttribute(String key) {
+    public static <T> Matcher<Model> containsAttribute(String key) {
         return new HasAttribute<T>(key, not(nullValue()));
     }
 }
