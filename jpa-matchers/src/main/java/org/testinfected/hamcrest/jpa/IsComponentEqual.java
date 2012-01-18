@@ -6,6 +6,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -46,7 +47,7 @@ public class IsComponentEqual<T> extends DiagnosingMatcher<T> {
     private Matcher<T> allNullFields(final Object target) {
         Collection<Matcher<? super T>> nullFields = new ArrayList<Matcher<? super T>>();
         for (Field field : PersistentFieldPredicate.persistentFieldsOf(target)) {
-            nullFields.add(new HasFieldWithValue<T>(field.getName(), nullValue()));
+            nullFields.add(new HasFieldWithValue<T, Object>(field.getName(), nullValue()));
         }
         return allOf(nullFields);
     }

@@ -20,7 +20,7 @@ public class PersistenceMatchers {
      * @param field the name of a field
      * @param value a matcher to validate the field value.
      */
-    public static <T> Matcher<T> hasField(String field, Matcher<?> value) {
+    public static <T, U> Matcher<T> hasField(String field, Matcher<U> value) {
         return HasFieldWithValue.hasField(field, value);
     }
 
