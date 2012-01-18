@@ -67,7 +67,7 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    IgnoresAssociations() {
+    ignoresAssociations() {
       assertMatches("matching non-association fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
     }
 
