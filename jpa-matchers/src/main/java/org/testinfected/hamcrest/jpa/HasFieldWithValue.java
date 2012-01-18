@@ -51,7 +51,7 @@ public class HasFieldWithValue<T> extends TypeSafeDiagnosingMatcher<T> {
     }
 
     @Factory
-    public static <T> Matcher<T> hasField(String field, Matcher value) {
+    public static <T> Matcher<T> hasField(String field, Matcher<?> value) {
         return new HasFieldWithValue<T>(field, value);
     }
 

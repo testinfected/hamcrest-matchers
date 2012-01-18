@@ -39,7 +39,7 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
     }
 
     private boolean hasMatchingPersistentFields(T argument, Description mismatchDescription) {
-        for (Matcher<? super T> matcher : persistentFieldsMatchersFor(expectedEntity)) {
+        for (Matcher<? extends T> matcher : persistentFieldsMatchersFor(expectedEntity)) {
             if (!matcher.matches(argument)) {
                 matcher.describeMismatch(argument, mismatchDescription);
                 return false;
@@ -48,26 +48,26 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
         return true;
     }
 
-    private static <T> Iterable<Matcher<? super T>> persistentFieldsMatchersFor(T entity) {
-        Collection<Matcher<? super T>> matchers = new ArrayList<Matcher<? super T>>();
+    private static <T> Iterable<Matcher<? extends T>> persistentFieldsMatchersFor(T entity) {
+        Collection<Matcher<? extends T>> matchers = new ArrayList<Matcher<? extends T>>();
         for (Field field : persistentFieldsOf(entity)) {
-            matchers.add(new FieldMatcher(field, valueMatcherFor(entity, field)));
+            matchers.add(new FieldMatcher<T>(field, valueMatcherFor(entity, field)));
         }
         return matchers;
     }
 
-    private static Matcher<Object> valueMatcherFor(Object entity, Field field) {
+    private static Matcher<?> valueMatcherFor(Object entity, Field field) {
         if (isEmbedded(field)) return componentEqualTo(Reflection.readField(entity, field));
         if (isAssociation(field)) return anyAssociation();
         return equalTo(Reflection.readField(entity, field));
     }
 
-    private static Matcher<Object> anyAssociation() {
+    private static Matcher<?> anyAssociation() {
         return DescribedAs.describedAs("an association", Matchers.anything());
     }
 
-    private static IsEqual<Object> equalTo(final Object arg) {
-        return new IsEqual<Object>(arg);
+    private static <T> IsEqual<T> equalTo(final T arg) {
+        return new IsEqual<T>(arg);
     }
 
     private static boolean isAssociation(Field field) {
@@ -106,17 +106,17 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
         description.appendText("]");
     }
 
-    public static class FieldMatcher extends DiagnosingMatcher<Object> {
+    public static class FieldMatcher<T> extends TypeSafeDiagnosingMatcher<T> {
 
         private final Field field;
-        private final Matcher<Object> valueMatcher;
+        private final Matcher<?> valueMatcher;
 
-        public FieldMatcher(Field field, Matcher<Object> valueMatcher) {
+        public FieldMatcher(Field field, Matcher<?> valueMatcher) {
             this.field = field;
             this.valueMatcher = valueMatcher;
         }
 
-        @Override protected boolean matches(Object argument, Description mismatchDescription) {
+        protected boolean matchesSafely(T argument, Description mismatchDescription) {
             Object actualValue = Reflection.readField(argument, field);
             boolean valueMatches = valueMatcher.matches(actualValue);
             if (!valueMatches) {

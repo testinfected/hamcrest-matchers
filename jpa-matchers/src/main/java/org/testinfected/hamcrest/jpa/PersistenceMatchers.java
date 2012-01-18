@@ -20,7 +20,7 @@ public class PersistenceMatchers {
      * @param field the name of a field
      * @param value a matcher to validate the field value.
      */
-    public static <T> Matcher<T> hasField(String field, Matcher<T> value) {
+    public static <T> Matcher<T> hasField(String field, Matcher<?> value) {
         return HasFieldWithValue.hasField(field, value);
     }
 
@@ -32,7 +32,7 @@ public class PersistenceMatchers {
      * @param field the name of the expected field
      */
     public static <T> Matcher<T> hasField(String field) {
-        return HasFieldWithValue.hasField(field, anything());
+        return HasFieldWithValue.hasField(field);
     }
 
     /**
