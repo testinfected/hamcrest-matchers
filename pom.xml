@@ -7,7 +7,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>org.testinfected</groupId>
+    <groupId>org.testinfected.hamcrest-matchers</groupId>
     <artifactId>hamcrest-matchers</artifactId>
     <packaging>pom</packaging>
     <version>1.4-SNAPSHOT</version>

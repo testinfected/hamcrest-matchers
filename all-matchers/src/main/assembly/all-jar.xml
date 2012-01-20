@@ -10,7 +10,7 @@
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>org.testinfected:*-matchers</include>
+                <include>org.testinfected.hamcrest-matchers*-matchers</include>
             </includes>
             <excludes>
                 <exclude>*:sources</exclude>

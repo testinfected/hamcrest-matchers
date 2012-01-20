@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>org.testinfected.hamcrest-matchers</groupId>
         <artifactId>hamcrest-matchers</artifactId>
-        <groupId>org.testinfected</groupId>
         <version>1.4-SNAPSHOT</version>
     </parent>
 
@@ -21,20 +21,8 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>core-matchers</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>dom-matchers</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>dom-matchers</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -43,31 +31,13 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jpa-matchers</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>spring-matchers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>spring-matchers</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>validation-matchers</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>validation-matchers</artifactId>
             <version>${project.version}</version>
-            <classifier>sources</classifier>
         </dependency>
     </dependencies>
 
@@ -104,6 +74,38 @@
 	<profiles>
 		<profile>
 			<id>sonatype-oss-release</id>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>core-matchers</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>dom-matchers</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>jpa-matchers</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>spring-matchers</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>validation-matchers</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sources</classifier>
+                </dependency>
+            </dependencies>
 			<build>
 				<plugins>
                     <plugin>
