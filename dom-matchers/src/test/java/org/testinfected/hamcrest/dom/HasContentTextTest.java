@@ -17,24 +17,24 @@ public class HasContentTextTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    matchesWhenElementHasMatchingTagName() {
-        assertMatches("correct content", HasContentText.hasContent(equalTo("text")), anElementWithText("text"));
-        assertDoesNotMatch("incorrect content", HasContentText.hasContent(equalTo("text")), anElementWithText("other text"));
+    matchesWhenContentMatches() {
+        assertMatches("does not match content", hasContent(equalTo("text")), anElementWithText("text"));
+        assertDoesNotMatch("matches different content", hasContent(equalTo("text")), anElementWithText("other text"));
     }
 
     @Test public void
-    providesConvenientShortcutForMatchingContentTextUsingEqual() {
-        assertMatches("same text", hasContent("text"), anElementWithText("text"));
+    providesConvenientShortcutForMatchingContentUsingEqual() {
+        assertMatches("does not match same text", hasContent("text"), anElementWithText("text"));
     }
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("an element with content text \"expected\"", HasContentText.hasContent(equalTo("expected")));
+        assertDescription("an element with content text \"expected\"", hasContent(equalTo("expected")));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element content text was \"different\"", HasContentText.hasContent(equalTo("expected")), anElementWithText("different"));
+        assertMismatchDescription("element content text was \"different\"", hasContent(equalTo("expected")), anElementWithText("different"));
     }
 
     private Element anElementWithText(String content) {

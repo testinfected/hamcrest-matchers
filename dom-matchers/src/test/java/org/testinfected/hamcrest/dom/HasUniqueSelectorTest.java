@@ -17,16 +17,16 @@ public class HasUniqueSelectorTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    matchesWhenASingleChildMatchesSelector() {
-        assertMatches("single element", hasUniqueSelector("#content"), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("element not found", hasUniqueSelector("#content"), toElement("<div>content</div>"));
-        assertDoesNotMatch("element found more than once", hasUniqueSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
+    matchesWhenASingleChildIsSelected() {
+        assertMatches("does mot match single subject", hasUniqueSelector("#content"), toElement("<div id='content'>content</div>"));
+        assertDoesNotMatch("matches a different subject", hasUniqueSelector("#content"), toElement("<div>content</div>"));
+        assertDoesNotMatch("matches subject several times", hasUniqueSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
     }
 
     @Test public void
-    matchesSelectedChildAgainstGivenMatcher() {
-        assertMatches("matching child", hasUniqueSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("child does not match", hasUniqueSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
+    matchesWhenSelectedChildMatches() {
+        assertMatches("does not match child", hasUniqueSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
+        assertDoesNotMatch("matches a different child", hasUniqueSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
     }
 
     @Test public void

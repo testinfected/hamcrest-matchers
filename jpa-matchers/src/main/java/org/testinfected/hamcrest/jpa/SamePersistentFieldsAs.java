@@ -26,12 +26,12 @@ public class SamePersistentFieldsAs<T> extends TypeSafeDiagnosingMatcher<T> {
 
     @Override
     protected boolean matchesSafely(T argument, Description mismatchDescription) {
-        return isCompatibleType(argument, mismatchDescription)
-                && hasMatchingPersistentFields(argument, mismatchDescription);
+        return isCompatibleType(argument, mismatchDescription) &&
+                hasMatchingPersistentFields(argument, mismatchDescription);
     }
 
     private boolean isCompatibleType(T argument, Description mismatchDescription) {
-        if (!expectedEntity.getClass().isAssignableFrom(argument.getClass())) {
+        if (!expectedEntity.getClass().isInstance(argument)) {
             mismatchDescription.appendText("is incompatible type: " + argument.getClass().getSimpleName());
             return false;
         }

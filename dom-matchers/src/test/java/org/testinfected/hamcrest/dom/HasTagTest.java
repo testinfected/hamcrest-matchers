@@ -18,27 +18,25 @@ public class HasTagTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    matchesWhenElementHasMatchingTagName() {
-        assertMatches("correct tag", HasTag.hasTag(equalToIgnoringCase("div")), a("div"));
-        assertDoesNotMatch("incorrect tag", HasTag.hasTag(equalTo("div")), a("span"));
+    matchesWhenTagNameMatches() {
+        assertMatches("does not match tag", hasTag(equalTo("div")), a("div"));
+        assertDoesNotMatch("matches a different tag", hasTag(equalTo("div")), a("span"));
     }
 
     @Test public void
     providesConvenientShortcutForMatchingTagNameIgnoringCase() {
-        assertMatches("same lowercase tag", hasTag("div"), a("div"));
-        assertMatches("same uppercase tag", hasTag("DIV"), a("DIV"));
-        assertMatches("upper case tag", hasTag("DIV"), a("div"));
-        assertMatches("lowercase correct tag", hasTag("div"), a("DIV"));
+        assertMatches("does not match lowercase tag", hasTag("DIV"), a("div"));
+        assertMatches("does not match uppercase tag", hasTag("div"), a("DIV"));
     }
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("element with tag \"div\"", HasTag.hasTag(equalTo("div")));
+        assertDescription("element with tag \"div\"", hasTag(equalTo("div")));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element tag was \"span\"", HasTag.hasTag(equalTo("div")), a("span"));
+        assertMismatchDescription("element tag was \"span\"", hasTag(equalTo("div")), a("span"));
     }
 
     private Element a(String tag) {

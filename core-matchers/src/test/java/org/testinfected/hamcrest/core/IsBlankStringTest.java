@@ -15,22 +15,22 @@ public class IsBlankStringTest extends AbstractMatcherTest {
 
     @Test public void
     matchesAStringContainingWhitespaceCharacters() {
-		assertMatches("a blank string", isBlank(), " ");
+		assertMatches("does not match blank", isBlank(), " ");
 	}
 
 	@Test public void
     matchesAStringContainingTabOrNewlineCharacters() {
-		assertMatches("a blank string with tabs and newlines", isBlank(), "\t\n");
+		assertMatches("does not match tabs and newlines", isBlank(), "\t\n");
 	}
 	
 	@Test public void
     matchesAStringContainingUnicodeBlankCharacters() {
-		assertMatches("a blank string with unicode blanks", isBlank(), "" + (char) 160);
+		assertMatches("does not match unicode blanks", isBlank(), "" + (char) 160);
 	}
 
 	@Test public void
     doesNotMatchAStringContainingNonBlankCharacters() {
-		assertDoesNotMatch("a non-blank string", isBlank(), " x ");
+		assertDoesNotMatch("matches non-blank", isBlank(), " x ");
 	}
 	
 	@Test public void

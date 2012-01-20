@@ -19,18 +19,20 @@ public class HasFieldWithValueTest extends AbstractMatcherTest {
 
     @Test public void
     matchesWhenFieldValueMatches() {
-        assertMatches("with field", hasField("field", equalTo("is expected")), shouldMatch);
+        assertMatches("does not match field", hasField("field", equalTo("is expected")), shouldMatch);
         assertMismatchDescription("\"field\" was \"not expected\"",
                                   hasField("field", equalTo("is expected")), shouldNotMatch);
     }
 
     @Test public void
-    doesNotMatchWhenFieldIsMissing() {
-        assertMismatchDescription("no field \"doh\"", hasField("doh", anything()), shouldNotMatch);
+    matchesPresenceOfField() {
+        assertMatches("does not match field", hasField("field"), shouldMatch);
     }
 
-    @Test public void matchesIfFieldPresentWhenNoMatcherIsGiven() {
-        assertMatches("field", hasField("field"), shouldMatch);
+    @Test public void
+    doesNotMatchWhenFieldIsMissing() {
+        assertDoesNotMatch("matches a different field", hasField("field", equalTo("is expected")), shouldNotMatch);
+        assertMismatchDescription("no field \"doh\"", hasField("doh", anything()), shouldNotMatch);
     }
 
     @Test public void

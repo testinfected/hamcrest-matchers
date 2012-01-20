@@ -18,18 +18,18 @@ public class HasRootElementTest extends AbstractMatcherTest {
 
     @Test public void
     matchesRootDocumentElement() {
-        assertMatches("correct element", hasRootElement(hasTag("html")), document("<html></html>"));
-        assertDoesNotMatch("incorrect element", hasRootElement(hasTag("xml")), document("<html></html>"));
+        assertMatches("does not match root element", hasRootElement(hasTag("html")), document("<html></html>"));
+        assertDoesNotMatch("matches different root element", hasRootElement(hasTag("xml")), document("<html></html>"));
     }
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("a document element with tag \"html\"", hasRootElement(HasTag.hasTag(equalTo("html"))));
+        assertDescription("a document element with tag \"html\"", hasRootElement(hasTag(equalTo("html"))));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("document element tag was \"html\"", hasRootElement(HasTag.hasTag(equalTo("xml"))), document("<html></html>"));
+        assertMismatchDescription("document element tag was \"html\"", hasRootElement(hasTag(equalTo("xml"))), document("<html></html>"));
     }
 
 }

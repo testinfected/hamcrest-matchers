@@ -16,29 +16,30 @@ public class IsComponentEqualTest extends AbstractMatcherTest {
     ExampleComponent expectedComponent = new ExampleComponent("same", 1, aValue);
     ExampleComponent shouldMatch = new ExampleComponent("same", 1, aMatchingValue);
 
-    @Override protected Matcher<?> createMatcher() {
+    @Override protected
+    Matcher<?> createMatcher() {
         return componentEqualTo(expectedComponent);
     }
 
     @Test public void
     matchesWhenAllPersistentFieldsMatch() {
-      assertMatches("matching fields", componentEqualTo(expectedComponent), shouldMatch);
+      assertMatches("does not match component", componentEqualTo(expectedComponent), shouldMatch);
     }
 
     @Test public void
     matchesTwoNullComponents() {
-      assertMatches("null match", componentEqualTo(null), null);
+      assertMatches("null does not match null", componentEqualTo(null), null);
     }
 
     @Test public void
     matchesNullToAComponentWithNullProperties() {
-      assertMatches("null expected",
+      assertMatches("null does not match",
           componentEqualTo(null), new ExampleComponent(null, null, null));
     }
 
     @Test public void
     matchesAComponentWithNullPropertiesToNull() {
-      assertMatches("all null expected",
+      assertMatches("does not match null",
               componentEqualTo(new ExampleComponent(null, null, null)), null);
     }
 

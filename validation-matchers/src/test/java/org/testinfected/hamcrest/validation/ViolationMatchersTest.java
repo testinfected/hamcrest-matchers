@@ -28,34 +28,34 @@ public class ViolationMatchersTest extends AbstractMatcherTest {
 
     @Test public void
     providesConvenientShortcutForMatchingAViolationInACollection() {
-        assertMatches("a match", violates(equalTo(shouldMatch)), asSet(shouldMatch, wontMatch));
+        assertMatches("does not match violation", violates(equalTo(shouldMatch)), asSet(shouldMatch, wontMatch));
     }
 
     @Test public void
     doesNotMatchViolationSetWhenNoViolationIsMatched() {
-        assertDoesNotMatch("no match", violates(equalTo(shouldMatch)), asSet(wontMatch));
+        assertDoesNotMatch("matches a different violation", violates(equalTo(shouldMatch)), asSet(wontMatch));
     }
 
     @Test public void
     doesNotMatchEmptyViolationSet() {
-        assertDoesNotMatch("no violation", violates(), asSet());
+        assertDoesNotMatch("matches non-existing violation", violates(), asSet());
     }
 
     @Test public void
     providesConvenientShortcutForMatchingAViolationAgainstSeveralMatchers() {
-        assertMatches("multiple matchers", violation(equalTo(shouldMatch), hasToString("should match")), shouldMatch);
+        assertMatches("does not match violation", violation(equalTo(shouldMatch), hasToString("should match")), shouldMatch);
     }
 
     @Test public void
     providesConvenientShortcutForMatchingOnPathProperty() {
-        assertMatches("path", ViolationMatchers.<Object>on("path.to.expression"), aViolation().on(pathAlong("path", "to", "expression")));
-        assertDoesNotMatch("path mismatch", ViolationMatchers.<Object>on("expression"), aViolation().on(pathAlong("mismatch")));
+        assertMatches("does not match path", ViolationMatchers.<Object>on("path.to.expression"), aViolation().on(pathAlong("path", "to", "expression")));
+        assertDoesNotMatch("matches different path", ViolationMatchers.<Object>on("expression"), aViolation().on(pathAlong("mismatch")));
     }
 
     @Test public void
     providesConvenientShortcutForMatchingOnMessageTemplate() {
-        assertMatches("message", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("error.key"));
-        assertDoesNotMatch("message mismatch", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("mismatched.key"));
+        assertMatches("does not match message", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("error.key"));
+        assertDoesNotMatch("matches a different message", ViolationMatchers.<Object>withError("error.key"), aViolation().withMessageTemplate("mismatched.key"));
     }
 
     private <T> Set<ConstraintViolation<T>> asSet(ConstraintViolation<T>... violations) {

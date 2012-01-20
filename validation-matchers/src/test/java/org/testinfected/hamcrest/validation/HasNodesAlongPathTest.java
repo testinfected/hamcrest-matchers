@@ -20,18 +20,18 @@ public class HasNodesAlongPathTest extends AbstractMatcherTest {
 
     @Test public void
     matchesPathToProperty() {
-        assertMatches("simple path", simplePath, shouldMatchSimplePath);
-        assertMatches("composed path", composedPath, shouldMatchComposedPath);
+        assertMatches("does not match simple path", simplePath, shouldMatchSimplePath);
+        assertMatches("does not match composed path", composedPath, shouldMatchComposedPath);
     }
 
     @Test public void
     wontMatchIfPathComponentIsNotFound() {
-        assertDoesNotMatch("simple path", simplePath, shouldNotMatch);
+        assertDoesNotMatch("matches a different path", simplePath, shouldNotMatch);
     }
 
     @Test public void
     blankPathMatchesPathOfClass() {
-    	 assertMatches("class path", classPath, shouldMatchClassPath);
+    	 assertMatches("does not match class path", classPath, shouldMatchClassPath);
     }
     
     @Test public void

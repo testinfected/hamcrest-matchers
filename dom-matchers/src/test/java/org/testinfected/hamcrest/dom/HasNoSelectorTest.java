@@ -15,9 +15,9 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    matchesWhenChildMatchesSelector() {
-        assertMatches("not found", hasNoSelector("#unknown"), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("found", hasNoSelector("#content"), toElement("<div id='content'>content</div>"));
+    matchesWhenSelectorHasNoSubject() {
+        assertMatches("does not match unselected", hasNoSelector("#unknown"), toElement("<div id='content'>content</div>"));
+        assertDoesNotMatch("matches selected", hasNoSelector("#content"), toElement("<div id='content'>content</div>"));
     }
 
     @Test public void

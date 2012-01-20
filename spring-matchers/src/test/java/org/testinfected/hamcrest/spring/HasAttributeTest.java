@@ -30,21 +30,21 @@ public class HasAttributeTest extends AbstractMatcherTest {
     }
     
     @Test public void
-    matchesAttributeValueUsingProvidedMatcher() {
-        assertMatches("correct value", createMatcher(), shouldMatch);
-        assertDoesNotMatch("incorrect value", createMatcher(), shouldNotMatch);
-        assertDoesNotMatch("missing key", createMatcher(), missingKey);
+    matchesAttributeValue() {
+        assertMatches("does not match value", createMatcher(), shouldMatch);
+        assertDoesNotMatch("matches a different value", createMatcher(), shouldNotMatch);
+        assertDoesNotMatch("matches a different key", createMatcher(), missingKey);
     }
     
     @Test public void
     providesConvenientShortcutForMatchingValueUsingEquals() {
-        assertMatches("equal value", hasAttribute("key", "matches"), shouldMatch);
+        assertMatches("does not match equal value", hasAttribute("key", "matches"), shouldMatch);
     }
     
     @Test public void
     providesConvenientShortcutForCheckingIfAttributeExists() {
-        assertMatches("key match", containsAttribute("key"), shouldMatch);
-        assertDoesNotMatch("no key match", containsAttribute("key"), missingKey);
+        assertMatches("does not match key", containsAttribute("key"), shouldMatch);
+        assertDoesNotMatch("matches different key", containsAttribute("key"), missingKey);
     }
 
     @Test public void

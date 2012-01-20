@@ -9,12 +9,11 @@ import org.hamcrest.StringDescription;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public abstract class AbstractMatcherTest {
 
     protected abstract Matcher<?> createMatcher();
-
-    protected static final Object ARGUMENT_IGNORED = new Object();
-    protected static final Object ANY_NON_NULL_ARGUMENT = new Object();
 
     public static <T> void assertMatches(String message, Matcher<? super T> c, T arg) {
         Assert.assertTrue(message, c.matches(arg));
@@ -27,14 +26,14 @@ public abstract class AbstractMatcherTest {
     public static void assertDescription(String expected, Matcher<?> matcher) {
         Description description = new StringDescription();
         description.appendDescriptionOf(matcher);
-        Assert.assertEquals("description", expected, description.toString());
+        assertEquals("description", expected, description.toString());
     }
 
     public static <T> void assertMismatchDescription(String expected, Matcher<? super T> matcher, T arg) {
         Description description = new StringDescription();
-        Assert.assertFalse("should not match item", matcher.matches(arg));
+        Assert.assertFalse("matches item", matcher.matches(arg));
         matcher.describeMismatch(arg, description);
-        Assert.assertEquals("mismatch description", expected, description.toString());
+        assertEquals("mismatch description", expected, description.toString());
     }
 
     @Test public void

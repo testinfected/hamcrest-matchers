@@ -40,7 +40,7 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
 
     @Test public void
     matchesWhenAllPersistentFieldsMatch() {
-      assertMatches("matching fields", samePersistentFieldsAs(expectedEntity), shouldMatch);
+      assertMatches("does not match persistent fields", samePersistentFieldsAs(expectedEntity), shouldMatch);
     }
 
     @Test public void
@@ -63,23 +63,23 @@ public class SamePersistentFieldsAsTest extends AbstractMatcherTest {
 
     @Test public void
     ignoresTransientFields() {
-      assertMatches("matching persistent fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
+      assertMatches("does not match persistent fields", samePersistentFieldsAs(expectedEntity), differentTransientFields);
     }
 
     @Test public void
     ignoresAssociations() {
-      assertMatches("matching non-association fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
+      assertMatches("matches non-association fields", samePersistentFieldsAs(expectedEntity), differentAssociationFields);
     }
 
     @Test public void
     matchesDescendantSameFields() {
-      assertMatches("sub type with same properties",
+      assertMatches("does not match subtype with same properties",
           samePersistentFieldsAs(expectedEntity), new DescendantEntity("same", 1, aValue, aComponent));
     }
 
     @Test public void
     matchesIfSubTypeHasExtraProperties() {
-      assertMatches("sub type with extra properties",
+      assertMatches("does not match subtype with extra properties",
           samePersistentFieldsAs(expectedEntity), new DescendantEntityWithExtraProperty("same", 1, aValue, aComponent));
     }
 

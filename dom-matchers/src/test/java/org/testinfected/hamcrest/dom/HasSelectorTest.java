@@ -18,18 +18,18 @@ public class HasSelectorTest extends AbstractMatcherTest {
     }
 
     @Test public void
-    matchesWhenAtLeastOneChildMatchesSelector() {
-        assertMatches("single element", hasSelector("#content"), toElement("<div id='content'>content</div>"));
-        assertMatches("multiple elements", hasSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
-        assertDoesNotMatch("element not found", hasSelector("#content"), toElement("<div>content</div>"));
+    matchesWhenAtLeastOneChildIsSelected() {
+        assertMatches("does not match single subject", hasSelector("#content"), toElement("<div id='content'>content</div>"));
+        assertMatches("does not match multiple subjects", hasSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
+        assertDoesNotMatch("matches a different subject", hasSelector("#content"), toElement("<div>content</div>"));
     }
 
     @Test public void
-    matchesSelectedChildrenAgainstSpecifiedMatchersInAnyOrder() {
-        assertMatches("matching child", hasSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
-        assertMatches("matching some children", hasSelector("ol > li", hasClassName("odd")), toElement("<ol><li class='odd'>first</li><li class='even'>second</li></ol>"));
-        assertMatches("matching all children", hasSelector("ol > li", hasClassName("even"), hasClassName("odd")), toElement("<ol><li class='odd'>first</li><li class='even'>second</li></ol>"));
-        assertDoesNotMatch("child does not match", hasSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
+    matchesSelectedChildrenInAnyOrder() {
+        assertMatches("does not match child", hasSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
+        assertMatches("does not match some children", hasSelector("ol > li", hasClassName("odd")), toElement("<ol><li class='odd'>first</li><li class='even'>second</li></ol>"));
+        assertMatches("does not match all children", hasSelector("ol > li", hasClassName("even"), hasClassName("odd")), toElement("<ol><li class='odd'>first</li><li class='even'>second</li></ol>"));
+        assertDoesNotMatch("matches different element", hasSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
     }
 
     @Test public void
