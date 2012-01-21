@@ -1,0 +1,12 @@
+syntax: glob
+
+target
+.idea
+.project
+.settings
+.classpath
+*.iml
+*.ipr
+*.iws
+release.properties
+.DS_Store
