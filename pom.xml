@@ -33,7 +33,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/testinfected/hamcrest-matchers.git</connection>
-        <developerConnection>scm:git:git@github.com:testinfected/hamcrest-matchers.git</developerConnection>
+        <developerConnection>scm:hg:git+ssh://git@github.com:testinfected/hamcrest-matchers.git</developerConnection>
         <url>https://github.com/testinfected/hamcrest-matchers</url>
     </scm>
     <developers>
