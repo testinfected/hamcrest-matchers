@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.testinfected.hamcrest-matchers</groupId>
         <artifactId>hamcrest-matchers</artifactId>
-        <version>1.5</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>spring-matchers</artifactId>
