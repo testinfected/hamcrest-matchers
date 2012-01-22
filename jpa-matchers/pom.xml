@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.testinfected.hamcrest-matchers</groupId>
         <artifactId>hamcrest-matchers</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.5</version>
     </parent>
 
     <artifactId>jpa-matchers</artifactId>
