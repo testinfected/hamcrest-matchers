@@ -42,14 +42,14 @@ public class ViolationMatchers {
     /**
      * Checks that validation fails, i.e. there is at least one constraint violation.
      */
-    public static <T> Matcher<Iterable<ConstraintViolation<T>>> fails() {
+    public static <T> Matcher<Iterable<? extends ConstraintViolation<T>>> fails() {
         return not(ViolationMatchers.<T>succeeds());
     }
 
     /**
      * Checks that violation succeeds, i.e. that there is no constraint violation.
      */
-    public static <T> Matcher<Iterable<ConstraintViolation<T>>> succeeds() {
+    public static <T> Matcher<Iterable<? extends ConstraintViolation<T>>> succeeds() {
         return IsEmptyIterable.emptyIterable();
     }
     
