@@ -57,7 +57,7 @@ public class FakeConstraintViolation implements ConstraintViolation<Object> {
         return null;
     }
 
-    public ConstraintDescriptor getConstraintDescriptor() {
+    public ConstraintDescriptor<?> getConstraintDescriptor() {
         return null;
     }
 
