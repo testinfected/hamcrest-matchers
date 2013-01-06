@@ -11,6 +11,13 @@
 
     <description>Additional core matchers for Hamcrest</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
 		<plugins>
 			<plugin>
