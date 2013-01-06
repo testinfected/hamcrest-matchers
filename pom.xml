@@ -10,7 +10,7 @@
     <groupId>org.testinfected.hamcrest-matchers</groupId>
     <artifactId>hamcrest-matchers</artifactId>
     <packaging>pom</packaging>
-    <version>1.6</version>
+    <version>1.7-SNAPSHOT</version>
     <modules>
         <module>core-matchers</module>
         <module>dom-matchers</module>
