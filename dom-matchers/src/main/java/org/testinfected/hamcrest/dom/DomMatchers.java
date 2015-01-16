@@ -21,7 +21,7 @@ public class DomMatchers {
 
     /**
      * Checks that an {@link org.w3c.dom.Element} matches a CSS3 selector with the specified matchers matching the subjects of the
-     * selector in any order. This is equivalent to <code>hasSelector(selector, matchesInAnyOrder(subjectsMatchers))</code>.
+     * selector in any order. This is equivalent to <code>hasSelector(selector, hasItems(subjectsMatchers))</code>.
      *
      * @param selector the CSS3 selector expression to match against the element
      * @param subjectsMatchers matchers to match the elements represented by the selector
@@ -214,7 +214,7 @@ public class DomMatchers {
      * @param value the expected value of the attribute
      */
     public static Matcher<Element> hasAttribute(String name, String value) {
-        return HasAttribute.hasAttribute(name, value);
+        return HasAttributeValue.hasAttribute(name, value);
     }
 
     /**
@@ -224,7 +224,7 @@ public class DomMatchers {
      * @param valueMatcher matcher for matching the attribute's value.
      */
     public static Matcher<Element> hasAttribute(String name, Matcher<? super String> valueMatcher) {
-        return HasAttribute.hasAttribute(name, valueMatcher);
+        return HasAttributeValue.hasAttribute(name, valueMatcher);
     }
 
     /**
@@ -233,7 +233,7 @@ public class DomMatchers {
      * @param name the name of the attribute
      */
     public static Matcher<Element> hasName(String name) {
-        return HasAttribute.hasName(name);
+        return HasAttributeValue.hasName(name);
     }
 
     /**
@@ -242,7 +242,7 @@ public class DomMatchers {
      * @param id the expected value of the id attribute
      */
     public static Matcher<Element> hasId(String id) {
-        return HasAttribute.hasId(id);
+        return HasAttributeValue.hasId(id);
     }
 
     /**
@@ -252,7 +252,7 @@ public class DomMatchers {
      * @param className the expected class the element
      */
     public static Matcher<Element> hasClassName(String className) {
-        return HasAttribute.hasClassName(className);
+        return HasAttributeValue.hasClassName(className);
     }
 
     /**
