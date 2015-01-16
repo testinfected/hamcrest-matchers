@@ -12,7 +12,7 @@ public class HasAttributeValue extends FeatureMatcher<Element, String> {
     private final String attributeName;
 
     public HasAttributeValue(String attributeName, Matcher<? super String> valueMatcher) {
-        super(valueMatcher, "element with attribute \"" + attributeName + "\"", "element attribute \"" + attributeName + "\"");
+        super(valueMatcher, "has attribute \"" + attributeName + "\" with value", "\"" + attributeName + "\" value");
         this.attributeName = attributeName;
     }
 

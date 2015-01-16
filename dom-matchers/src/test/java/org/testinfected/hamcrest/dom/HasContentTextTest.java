@@ -29,12 +29,12 @@ public class HasContentTextTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("an element with content text \"expected\"", hasContent(equalTo("expected")));
+        assertDescription("has content text \"expected\"", hasContent(equalTo("expected")));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element content text was \"different\"", hasContent(equalTo("expected")), anElementWithText("different"));
+        assertMismatchDescription("text was \"different\"", hasContent(equalTo("expected")), anElementWithText("different"));
     }
 
     private Element anElementWithText(String content) {

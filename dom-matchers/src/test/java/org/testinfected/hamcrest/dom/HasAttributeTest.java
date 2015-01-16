@@ -47,7 +47,7 @@ public class HasAttributeTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("an element having attribute \"name\"", hasAttribute("name"));
+        assertDescription("has attribute \"name\"", hasAttribute("name"));
     }
 
     @Test public void

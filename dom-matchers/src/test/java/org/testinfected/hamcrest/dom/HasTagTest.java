@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.testinfected.hamcrest.AbstractMatcherTest;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.toElement;
 import static org.testinfected.hamcrest.dom.HasTag.hasTag;
@@ -31,12 +30,12 @@ public class HasTagTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("element with tag \"div\"", hasTag(equalTo("div")));
+        assertDescription("has tag \"div\"", hasTag(equalTo("div")));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element tag was \"span\"", hasTag(equalTo("div")), a("span"));
+        assertMismatchDescription("tag was \"span\"", hasTag(equalTo("div")), a("span"));
     }
 
     private Element a(String tag) {

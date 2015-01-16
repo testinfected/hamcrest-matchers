@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 public class HasTag extends FeatureMatcher<Element, String> {
 
     public HasTag(Matcher<? super String> valueMatcher) {
-        super(valueMatcher, "element with tag", "element tag");
+        super(valueMatcher, "has tag", "tag");
     }
 
     @Override

@@ -31,7 +31,7 @@ public class HasUniqueSelectorTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("has unique selector \"#content\" element with tag \"div\"", hasUniqueSelector("#content", HasTag.hasTag(equalTo("div"))));
+        assertDescription("has unique selector \"#content\" has tag \"div\"", hasUniqueSelector("#content", HasTag.hasTag(equalTo("div"))));
     }
 
     @Test public void

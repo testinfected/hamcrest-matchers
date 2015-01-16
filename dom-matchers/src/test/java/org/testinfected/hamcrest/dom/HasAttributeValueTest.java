@@ -58,13 +58,13 @@ public class HasAttributeValueTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("element with attribute \"name\" \"submit\"", hasAttribute("name", "submit"));
+        assertDescription("has attribute \"name\" with value \"submit\"", hasAttribute("name", "submit"));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element attribute \"name\" was \"Commit\"", hasAttribute("name", "submit"), anElementWithAttribute("name", "Commit"));
-        assertMismatchDescription("element attribute \"name\" was \"\"", hasAttribute("name", "submit"), anElementWithAttribute("value", "submit"));
+        assertMismatchDescription("\"name\" value was \"Commit\"", hasAttribute("name", "submit"), anElementWithAttribute("name", "Commit"));
+        assertMismatchDescription("\"name\" value was \"\"", hasAttribute("name", "submit"), anElementWithAttribute("value", "submit"));
     }
 
     private Element anElementWithAttribute(String attributeName, String attributeValue) {

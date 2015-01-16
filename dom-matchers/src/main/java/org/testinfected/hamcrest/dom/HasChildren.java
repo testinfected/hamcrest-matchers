@@ -14,7 +14,7 @@ import java.util.List;
 public class HasChildren extends FeatureMatcher<Element, Iterable<Element>> {
 
     public HasChildren(Matcher<Iterable<Element>> childrenMatcher) {
-        super(childrenMatcher, "an element with children", "element children");
+        super(childrenMatcher, "has children", "children");
     }
 
     protected Iterable<Element> featureValueOf(Element actual) {

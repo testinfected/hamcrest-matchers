@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 public class HasContentText extends FeatureMatcher<Element, String> {
 
     public HasContentText(Matcher<? super String> contentMatcher) {
-        super(contentMatcher, "an element with content text", "element content text");
+        super(contentMatcher, "has content text", "text");
     }
 
     @Override

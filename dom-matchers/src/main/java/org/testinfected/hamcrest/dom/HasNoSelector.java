@@ -22,7 +22,7 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
         Iterable<Element> selected = from(doc).select(selector);
         if (!isEmpty(selected)) {
             Element match = selected.iterator().next();
-            mismatchDescription.appendText("matched element \"" + match.getTagName() + "\"");
+            mismatchDescription.appendText("found element \"" + match.getTagName() + "\"");
             return false;
         }
         return true;

@@ -27,6 +27,6 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("matched element \"div\"", hasNoSelector("#content"), toElement("<div id='content'></div>"));
+        assertMismatchDescription("found element \"div\"", hasNoSelector("#content"), toElement("<div id='content'></div>"));
     }
 }

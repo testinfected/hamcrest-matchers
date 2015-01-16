@@ -35,12 +35,12 @@ public class HasSelectorTest extends AbstractMatcherTest {
     @Test public void
     hasAReadableDescription() {
         assertDescription("has selector \"#content\"", hasSelector("#content"));
-        assertDescription("has selector \"#content\" (a collection containing element with tag \"div\")", hasSelector("#content", HasTag.hasTag(equalTo("div"))));
+        assertDescription("has selector \"#content\" (a collection containing has tag \"div\")", hasSelector("#content", HasTag.hasTag(equalTo("div"))));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
         assertMismatchDescription("no selector \"ul li\"", hasSelector("ul li"), toElement("<ol><li>first</li><li>second</li></ol>"));
-        assertMismatchDescription("#content a collection containing element with tag \"div\" element tag was \"span\"", hasSelector("#content", HasTag.hasTag(equalTo("div"))), toElement("<span id='content'>content</span>"));
+        assertMismatchDescription("#content a collection containing has tag \"div\" tag was \"span\"", hasSelector("#content", HasTag.hasTag(equalTo("div"))), toElement("<span id='content'>content</span>"));
     }
 }
