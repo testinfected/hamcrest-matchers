@@ -6,7 +6,7 @@ import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.toElement;
-import static org.testinfected.hamcrest.dom.HasAttribute.hasClassName;
+import static org.testinfected.hamcrest.dom.HasAttributeValue.hasClassName;
 import static org.testinfected.hamcrest.dom.HasSelector.hasSelector;
 import static org.testinfected.hamcrest.dom.HasTag.hasTag;
 

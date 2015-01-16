@@ -5,69 +5,57 @@ import org.junit.Test;
 import org.testinfected.hamcrest.AbstractMatcherTest;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.testinfected.hamcrest.dom.Documents.toElement;
-import static org.testinfected.hamcrest.dom.HasAttribute.hasAttribute;
-import static org.testinfected.hamcrest.dom.HasAttribute.hasClassName;
-import static org.testinfected.hamcrest.dom.HasAttribute.hasId;
-import static org.testinfected.hamcrest.dom.HasAttribute.hasName;
+import static org.testinfected.hamcrest.dom.HasAttribute.*;
 
 public class HasAttributeTest extends AbstractMatcherTest {
 
     @Override
     protected Matcher<?> createMatcher() {
-        return HasAttribute.hasAttribute("name", equalTo("Submit"));
+        return hasAttribute("selected");
     }
 
     @Test public void
-    matchesWhenAttributeValueMatches() {
-        assertMatches("does not match attribute", hasAttribute("name", equalTo("submit")), anElementWithAttribute("name", "submit"));
-        assertDoesNotMatch("matches attribute when value differs", hasAttribute("name", equalTo("commit")), anElementWithAttribute("name", "submit"));
-        assertDoesNotMatch("matches missing attribute", hasAttribute("value", equalTo("submit")), anElementWithAttribute("name", "submit"));
+    matchesDependingOnAttributePresence() {
+        assertMatches("attribute not found", hasAttribute("selected"), elementWithAttribute("selected"));
+        assertDoesNotMatch("attribute found", hasAttribute("selected"), elementWithAttribute("readonly"));
     }
 
     @Test public void
-    providesConvenientShortcutForMatchingAttributeValueUsingEqual() {
-        assertMatches("does not match attribute", hasAttribute("name", "submit"), anElementWithAttribute("name", "submit"));
-        assertDoesNotMatch("matches a different value", hasAttribute("name", "Submit"), anElementWithAttribute("name", "submit"));
-        assertDoesNotMatch("matches incorrect attribute", hasAttribute("name", "commit"), anElementWithAttribute("name", "submit"));
-        assertDoesNotMatch("matches missing attribute", hasAttribute("value", "submit"), anElementWithAttribute("name", "submit"));
+    providesShortcutForMatchingSelectedElements() {
+        assertMatches("not selected", isSelected(), elementWithAttribute("selected"));
+        assertDoesNotMatch("selected", isSelected(), elementWithAttribute("readonly"));
     }
 
     @Test public void
-    providesConvenientShortcutForMatchingId() {
-        assertMatches("does not match id", hasId("content"), anElementWithAttribute("id", "content"));
-        assertDoesNotMatch("matches a different id", hasId("content"), anElementWithAttribute("id", "header"));
+    providesShortcutForMatchingReadonlyElements() {
+        assertMatches("not readonly", isReadOnly(), elementWithAttribute("readonly"));
+        assertDoesNotMatch("readonly", isReadOnly(), elementWithAttribute("checked"));
     }
 
     @Test public void
-    providesConvenientShortcutForMatchingName() {
-        assertMatches("does not match name", hasName("fieldName"), anElementWithAttribute("name", "fieldName"));
-        assertDoesNotMatch("matches a different name", hasName("fieldName"), anElementWithAttribute("name", "incorrectName"));
+    providesShortcutForMatchingCheckedElements() {
+        assertMatches("not checked", isChecked(), elementWithAttribute("checked"));
+        assertDoesNotMatch("checked", isChecked(), elementWithAttribute("disabled"));
     }
 
     @Test public void
-    providesConvenientShortcutForMatchingAClassName() {
-        assertMatches("does not match class", hasClassName("text"), anElementWithAttribute("class", "text"));
-        assertDoesNotMatch("matches another class", hasClassName("text"), anElementWithAttribute("class", "number"));
-        assertMatches("does not match first class", hasClassName("text"), anElementWithAttribute("class", "text strong"));
-        assertMatches("does not match last class", hasClassName("text"), anElementWithAttribute("class", "strong text"));
-        assertMatches("does not match center class", hasClassName("text"), anElementWithAttribute("class", "bold text strong"));
-        assertDoesNotMatch("matches look-alike class", hasClassName("text"), anElementWithAttribute("class", "textlongtext"));
+    providesShortcutForMatchingDisabledElements() {
+        assertMatches("not disabled", isDisabled(), elementWithAttribute("disabled"));
+        assertDoesNotMatch("checked", isDisabled(), elementWithAttribute("selected"));
     }
 
     @Test public void
     hasAReadableDescription() {
-        assertDescription("element with attribute \"name\" \"submit\"", hasAttribute("name", "submit"));
+        assertDescription("an element having attribute \"name\"", hasAttribute("name"));
     }
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("element attribute \"name\" was \"Commit\"", hasAttribute("name", "submit"), anElementWithAttribute("name", "Commit"));
-        assertMismatchDescription("element attribute \"name\" was \"\"", hasAttribute("name", "submit"), anElementWithAttribute("value", "submit"));
+        assertMismatchDescription("no attribute \"name\"", hasAttribute("name"), elementWithAttribute("other"));
     }
 
-    private Element anElementWithAttribute(String attributeName, String attributeValue) {
-        return toElement(String.format("<div %s=\"%s\"></div>", attributeName, attributeValue));
+    private Element elementWithAttribute(String name) {
+        return toElement(String.format("<input %s=\"\"/>", name));
     }
 }

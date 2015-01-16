@@ -40,7 +40,6 @@ public class DomMatchers {
         return HasSelector.hasSelector(selector, subjectsMatcher);
     }
 
-
     /**
      * Checks that a collection of {@link org.w3c.dom.Element}a is of a specified size.
      *
@@ -208,9 +207,18 @@ public class DomMatchers {
     }
 
     /**
+     * Checks for the presence of the specified attribute on an {@link org.w3c.dom.Element}.
+     *
+     * @param name the name of the attribute
+     */
+    public static Matcher<Element> hasAttribute(String name) {
+        return HasAttribute.hasAttribute(name);
+    }
+
+    /**
      * Checks that an {@link org.w3c.dom.Element} has an attribute with the specified value.
      *
-     * @param name the name of the attribute.
+     * @param name the name of the attribute
      * @param value the expected value of the attribute
      */
     public static Matcher<Element> hasAttribute(String name, String value) {
@@ -228,9 +236,9 @@ public class DomMatchers {
     }
 
     /**
-     * Checks that an {@link org.w3c.dom.Element} has the specified attribute, whatever its value.
+     * Checks that an {@link org.w3c.dom.Element} has the specified name attribute.
      *
-     * @param name the name of the attribute
+     * @param name the value of the name attribute
      */
     public static Matcher<Element> hasName(String name) {
         return HasAttributeValue.hasName(name);

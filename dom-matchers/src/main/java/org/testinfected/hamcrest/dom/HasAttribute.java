@@ -1,54 +1,48 @@
 package org.testinfected.hamcrest.dom;
 
-import org.hamcrest.Factory;
-import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.AnyOf.anyOf;
-
-public class HasAttribute extends FeatureMatcher<Element, String> {
+public class HasAttribute extends TypeSafeDiagnosingMatcher<Element> {
     private final String attributeName;
 
-    public HasAttribute(String attributeName, Matcher<? super String> valueMatcher) {
-        super(valueMatcher, "element with attribute \"" + attributeName + "\"", "element attribute \"" + attributeName + "\"");
+    public HasAttribute(String attributeName) {
         this.attributeName = attributeName;
     }
 
     @Override
-    protected String featureValueOf(Element actual) {
-        return actual.getAttribute(attributeName);
+    protected boolean matchesSafely(Element actual, Description mismatchDescription) {
+        boolean match = actual.hasAttribute(attributeName);
+        if (!match) {
+            mismatchDescription.appendText("no attribute ").appendValue(attributeName);
+        }
+        return match;
     }
 
-    @Factory
-    public static Matcher<Element> hasAttribute(String name, String value) {
-        return hasAttribute(name, equalTo(value));
+    @Override
+    public void describeTo(Description description) {
+        description.appendText("an element having attribute ").appendValue(attributeName);
     }
 
-    @Factory
-    public static Matcher<Element> hasId(String id) {
-        return hasAttribute("id", equalTo(id));
+    public static Matcher<Element> isSelected() {
+        return hasAttribute("selected");
     }
 
-    @Factory
-    public static Matcher<Element> hasName(String name) {
-        return hasAttribute("name", equalTo(name));
+    public static Matcher<Element> isReadOnly() {
+        return hasAttribute("readonly");
     }
 
-    @SuppressWarnings("unchecked")
-    @Factory
-    public static Matcher<Element> hasClassName(String className) {
-        return hasAttribute("class", anyOf(
-                equalTo(className),
-                startsWith(className + " "),
-                endsWith(" " + className),
-                containsString(" " + className + " ")
-        ));
+    public static Matcher<Element> isChecked() {
+        return hasAttribute("checked");
     }
 
-    @Factory
-    public static Matcher<Element> hasAttribute(String name, Matcher<? super String> valueMatcher) {
-        return new HasAttribute(name, valueMatcher);
+    public static Matcher<Element> isDisabled() {
+        return hasAttribute("disabled");
+    }
+
+    public static Matcher<Element> hasAttribute(String name) {
+        return new HasAttribute(name);
     }
 }
