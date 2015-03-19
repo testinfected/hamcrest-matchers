@@ -1,10 +1,10 @@
 package org.testinfected.hamcrest.dom;
 
-import com.google.common.collect.Iterables;
 import org.hamcrest.*;
 import org.w3c.dom.Element;
 
 import static com.threelevers.css.Selector.from;
+import static org.testinfected.hamcrest.dom.IterablesUtils.isEmpty;
 
 public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     private final String selector;
@@ -22,7 +22,7 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     @Override
     protected boolean matchesSafely(Element element, Description mismatchDescription) {
         Iterable<Element> elements = from(element).select(selector);
-        if (Iterables.isEmpty(elements)) {
+        if (isEmpty(elements)) {
             mismatchDescription.appendText("no selector ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;

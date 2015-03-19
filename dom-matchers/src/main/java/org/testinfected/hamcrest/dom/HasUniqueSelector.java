@@ -1,6 +1,5 @@
 package org.testinfected.hamcrest.dom;
 
-import com.google.common.collect.Iterables;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
@@ -25,12 +24,12 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Iterable<Element> allElements = from(doc).select(selector);
         if (!isSingleton(allElements)) {
-            mismatchDescription.appendText(valueOf(Iterables.size(allElements)));
+            mismatchDescription.appendText(valueOf(IterablesUtils.size(allElements)));
             mismatchDescription.appendText(" selector(s) ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
-        Element element = Iterables.getOnlyElement(allElements);
+        Element element = IterablesUtils.getOnlyElement(allElements);
         boolean valueMatches = subjectMatcher.matches(element);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
@@ -40,7 +39,7 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     }
 
     private boolean isSingleton(Iterable<Element> elements) {
-        return Iterables.size(elements) == 1;
+        return IterablesUtils.size(elements) == 1;
     }
 
     public void describeTo(Description description) {

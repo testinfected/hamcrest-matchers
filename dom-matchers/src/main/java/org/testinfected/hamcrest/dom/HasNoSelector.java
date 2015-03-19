@@ -6,8 +6,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
 
-import static com.google.common.collect.Iterables.isEmpty;
 import static com.threelevers.css.Selector.from;
+import static org.testinfected.hamcrest.dom.IterablesUtils.isEmpty;
 
 public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
 
