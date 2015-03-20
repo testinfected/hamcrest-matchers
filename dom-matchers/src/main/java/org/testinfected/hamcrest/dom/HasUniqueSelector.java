@@ -26,7 +26,7 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
         Set<Node> allElements = DomUtils.selectNodes(doc, selector);
         if (allElements.size() != 1) {
-            mismatchDescription.appendText(valueOf(IterablesUtils.size(allElements)));
+            mismatchDescription.appendText(valueOf(allElements.size()));
             mismatchDescription.appendText(" selector(s) ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
