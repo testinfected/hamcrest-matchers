@@ -5,8 +5,10 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import static com.threelevers.css.Selector.from;
+import java.util.Set;
+
 import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.anything;
 import static org.testinfected.hamcrest.dom.DomMatchers.anElement;
@@ -22,24 +24,20 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Iterable<Element> allElements = from(doc).select(selector);
-        if (!isSingleton(allElements)) {
+        Set<Node> allElements = DomUtils.selectNodes(doc, selector);
+        if (allElements.size() != 1) {
             mismatchDescription.appendText(valueOf(IterablesUtils.size(allElements)));
             mismatchDescription.appendText(" selector(s) ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
-        Element element = IterablesUtils.getOnlyElement(allElements);
+        Node element = allElements.iterator().next();
         boolean valueMatches = subjectMatcher.matches(element);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
             subjectMatcher.describeMismatch(element, mismatchDescription);
         }
         return valueMatches;
-    }
-
-    private boolean isSingleton(Iterable<Element> elements) {
-        return IterablesUtils.size(elements) == 1;
     }
 
     public void describeTo(Description description) {

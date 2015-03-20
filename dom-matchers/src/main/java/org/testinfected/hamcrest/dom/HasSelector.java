@@ -2,9 +2,9 @@ package org.testinfected.hamcrest.dom;
 
 import org.hamcrest.*;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import static com.threelevers.css.Selector.from;
-import static org.testinfected.hamcrest.dom.IterablesUtils.isEmpty;
+import java.util.Set;
 
 public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
     private final String selector;
@@ -21,8 +21,8 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element element, Description mismatchDescription) {
-        Iterable<Element> elements = from(element).select(selector);
-        if (isEmpty(elements)) {
+        Set<Node> elements = DomUtils.selectNodes(element, selector);
+        if (elements.size() == 0) {
             mismatchDescription.appendText("no selector ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;

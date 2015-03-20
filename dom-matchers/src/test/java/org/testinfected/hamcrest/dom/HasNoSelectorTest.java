@@ -14,19 +14,22 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
         return hasNoSelector("#unknown");
     }
 
-    @Test public void
+    @Test
+    public void
     matchesWhenSelectorHasNoSubject() {
-        assertMatches("does not match unselected", hasNoSelector("#unknown"), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("matches selected", hasNoSelector("#content"), toElement("<div id='content'>content</div>"));
+        assertMatches("does not match unselected", hasNoSelector("#unknown"), toElement("<html><body><div id='content'>content</div></body></html>"));
+        assertDoesNotMatch("matches selected", hasNoSelector("#content"), toElement("<html><body><div id=\"content\">content</div></body></html>"));
     }
 
-    @Test public void
+    @Test
+    public void
     hasAReadableDescription() {
         assertDescription("has no selector \"#unknown\"", hasNoSelector("#unknown"));
     }
 
-    @Test public void
+    @Test
+    public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("found element \"div\"", hasNoSelector("#content"), toElement("<div id='content'></div>"));
+        assertMismatchDescription("found element \"div\"", hasNoSelector("#content"), toElement("<html><body><div id='content'></div></body></html>"));
     }
 }

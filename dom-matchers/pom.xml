@@ -26,9 +26,9 @@
             <artifactId>hamcrest-library</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.3levers.cssselectors</groupId>
-            <artifactId>cssselectors</artifactId>
-            <version>1.0</version>
+            <groupId>se.fishtank</groupId>
+            <artifactId>css-selectors</artifactId>
+            <version>1.0.5</version>
         </dependency>
 
         <dependency>

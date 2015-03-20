@@ -5,9 +5,9 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
-import static com.threelevers.css.Selector.from;
-import static org.testinfected.hamcrest.dom.IterablesUtils.isEmpty;
+import java.util.Set;
 
 public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
 
@@ -19,10 +19,10 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Iterable<Element> selected = from(doc).select(selector);
-        if (!isEmpty(selected)) {
-            Element match = selected.iterator().next();
-            mismatchDescription.appendText("found element \"" + match.getTagName() + "\"");
+        Set<Node> selected = DomUtils.selectNodes(doc, selector);
+        if (selected.size() != 0) {
+            Node match = selected.iterator().next();
+            mismatchDescription.appendText("found element \"" + match.getNodeName() + "\"");
             return false;
         }
         return true;

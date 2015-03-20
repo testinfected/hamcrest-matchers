@@ -18,15 +18,15 @@ public class HasUniqueSelectorTest extends AbstractMatcherTest {
 
     @Test public void
     matchesWhenASingleChildIsSelected() {
-        assertMatches("does mot match single subject", hasUniqueSelector("#content"), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("matches a different subject", hasUniqueSelector("#content"), toElement("<div>content</div>"));
-        assertDoesNotMatch("matches subject several times", hasUniqueSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
+        assertMatches("does mot match single subject", hasUniqueSelector("#content"), toElement("<html><body><div id='content'>content</div></body></html>"));
+        assertDoesNotMatch("matches a different subject", hasUniqueSelector("#content"), toElement("<html><body><div>content</div></body></html>"));
+        assertDoesNotMatch("matches subject several times", hasUniqueSelector("li"), toElement("<html><body><ol><li>first</li><li>second</li></ol></body></html>"));
     }
 
     @Test public void
     matchesWhenSelectedChildMatches() {
-        assertMatches("does not match child", hasUniqueSelector("#content", hasTag("div")), toElement("<div id='content'>content</div>"));
-        assertDoesNotMatch("matches a different child", hasUniqueSelector("#content", hasTag("div")), toElement("<span id='content'>content</span>"));
+        assertMatches("does not match child", hasUniqueSelector("#content", hasTag("div")), toElement("<html><body><div id='content'>content</div></body></html>"));
+        assertDoesNotMatch("matches a different child", hasUniqueSelector("#content", hasTag("div")), toElement("<html><body><span id='content'>content</span></body></html>"));
     }
 
     @Test public void
@@ -36,6 +36,6 @@ public class HasUniqueSelectorTest extends AbstractMatcherTest {
 
     @Test public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("2 selector(s) \"li\"", hasUniqueSelector("li"), toElement("<ol><li>first</li><li>second</li></ol>"));
+        assertMismatchDescription("2 selector(s) \"li\"", hasUniqueSelector("li"), toElement("<html><body><ol><li>first</li><li>second</li></ol></body></html>"));
     }
 }
