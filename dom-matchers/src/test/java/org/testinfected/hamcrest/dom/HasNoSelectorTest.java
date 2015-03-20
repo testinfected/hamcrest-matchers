@@ -4,7 +4,7 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.testinfected.hamcrest.AbstractMatcherTest;
 
-import static org.testinfected.hamcrest.dom.Documents.toElement;
+import static org.testinfected.hamcrest.dom.Documents.html;
 import static org.testinfected.hamcrest.dom.HasNoSelector.hasNoSelector;
 
 public class HasNoSelectorTest extends AbstractMatcherTest {
@@ -17,8 +17,8 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
     @Test
     public void
     matchesWhenSelectorHasNoSubject() {
-        assertMatches("does not match unselected", hasNoSelector("#unknown"), toElement("<html><body><div id='content'>content</div></body></html>"));
-        assertDoesNotMatch("matches selected", hasNoSelector("#content"), toElement("<html><body><div id=\"content\">content</div></body></html>"));
+        assertMatches("does not match unselected", hasNoSelector("#unknown"), html("<div id='content'>content</div>"));
+        assertDoesNotMatch("matches selected", hasNoSelector("#content"), html("<div id=\"content\">content</div>"));
     }
 
     @Test
@@ -30,6 +30,6 @@ public class HasNoSelectorTest extends AbstractMatcherTest {
     @Test
     public void
     hasAReadableMismatchDescription() {
-        assertMismatchDescription("found element \"div\"", hasNoSelector("#content"), toElement("<html><body><div id='content'></div></body></html>"));
+        assertMismatchDescription("found element \"div\"", hasNoSelector("#content"), html("<div id='content'></div>"));
     }
 }
