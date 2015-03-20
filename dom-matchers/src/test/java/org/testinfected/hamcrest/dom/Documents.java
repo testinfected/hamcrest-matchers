@@ -33,4 +33,8 @@ public final class Documents {
         return document(dom).getDocumentElement();
     }
 
+    public static Element html(String dom) {
+        String htmlDocument = "<html><body>" + dom + "</body></html>";
+        return document(htmlDocument).getDocumentElement();
+    }
 }
