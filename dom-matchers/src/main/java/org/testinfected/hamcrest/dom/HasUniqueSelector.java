@@ -24,14 +24,14 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Set<Node> allElements = Selector.from(doc).selectAll(selector);
-        if (allElements.size() != 1) {
-            mismatchDescription.appendText(valueOf(allElements.size()));
+        Set<Node> selected = Selector.from(doc).selectAll(selector);
+        if (selected.size() != 1) {
+            mismatchDescription.appendText(valueOf(selected.size()));
             mismatchDescription.appendText(" selector(s) ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
-        Node element = allElements.iterator().next();
+        Node element = selected.iterator().next();
         boolean valueMatches = subjectMatcher.matches(element);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");

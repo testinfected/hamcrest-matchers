@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.testinfected.hamcrest.AbstractMatcherTest;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.testinfected.hamcrest.dom.Documents.html;
+import static org.testinfected.hamcrest.dom.HTML.html;
 import static org.testinfected.hamcrest.dom.HasTag.hasTag;
 import static org.testinfected.hamcrest.dom.HasUniqueSelector.hasUniqueSelector;
 

@@ -21,18 +21,18 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element element, Description mismatchDescription) {
-        Set<Node> elements = Selector.from(element).selectAll(selector);
-        if (elements.size() == 0) {
+        Set<Node> selected = Selector.from(element).selectAll(selector);
+        if (selected.isEmpty()) {
             mismatchDescription.appendText("no selector ");
             mismatchDescription.appendText("\"" + selector + "\"");
             return false;
         }
         if (subjectsMatcher == null) return true;
 
-        boolean valueMatches = subjectsMatcher.matches(elements);
+        boolean valueMatches = subjectsMatcher.matches(selected);
         if (!valueMatches) {
             mismatchDescription.appendText(selector + " ");
-            subjectsMatcher.describeMismatch(elements, mismatchDescription);
+            subjectsMatcher.describeMismatch(selected, mismatchDescription);
         }
         return valueMatches;
     }

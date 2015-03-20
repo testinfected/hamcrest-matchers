@@ -4,7 +4,7 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.testinfected.hamcrest.AbstractMatcherTest;
 
-import static org.testinfected.hamcrest.dom.Documents.html;
+import static org.testinfected.hamcrest.dom.HTML.html;
 import static org.testinfected.hamcrest.dom.HasNoSelector.hasNoSelector;
 
 public class HasNoSelectorTest extends AbstractMatcherTest {

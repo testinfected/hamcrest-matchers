@@ -15,7 +15,7 @@ public final class Documents {
 
     private Documents() {}
 
-    public static Document document(String dom) {
+    public static Document from(String dom) {
         try {
             DocumentBuilderFactory parserFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder parser = parserFactory.newDocumentBuilder();
@@ -30,11 +30,6 @@ public final class Documents {
     }
 
     public static Element toElement(String dom) {
-        return document(dom).getDocumentElement();
-    }
-
-    public static Element html(String dom) {
-        String htmlDocument = "<html><body>" + dom + "</body></html>";
-        return document(htmlDocument).getDocumentElement();
+        return from(dom).getDocumentElement();
     }
 }
