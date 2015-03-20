@@ -21,7 +21,7 @@ public class HasSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element element, Description mismatchDescription) {
-        Set<Node> elements = DomUtils.selectNodes(element, selector);
+        Set<Node> elements = Selector.from(element).selectAll(selector);
         if (elements.size() == 0) {
             mismatchDescription.appendText("no selector ");
             mismatchDescription.appendText("\"" + selector + "\"");

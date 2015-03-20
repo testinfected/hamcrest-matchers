@@ -24,7 +24,7 @@ public class HasUniqueSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Set<Node> allElements = DomUtils.selectNodes(doc, selector);
+        Set<Node> allElements = Selector.from(doc).selectAll(selector);
         if (allElements.size() != 1) {
             mismatchDescription.appendText(valueOf(allElements.size()));
             mismatchDescription.appendText(" selector(s) ");

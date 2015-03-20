@@ -19,7 +19,7 @@ public class HasNoSelector extends TypeSafeDiagnosingMatcher<Element> {
 
     @Override
     protected boolean matchesSafely(Element doc, Description mismatchDescription) {
-        Set<Node> selected = DomUtils.selectNodes(doc, selector);
+        Set<Node> selected = Selector.from(doc).selectAll(selector);
         if (selected.size() != 0) {
             Node match = selected.iterator().next();
             mismatchDescription.appendText("found element \"" + match.getNodeName() + "\"");
