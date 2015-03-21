@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.testinfected.hamcrest-matchers</groupId>
         <artifactId>hamcrest-matchers</artifactId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.8</version>
     </parent>
     <artifactId>core-matchers</artifactId>
     <name>Core Matchers</name>
